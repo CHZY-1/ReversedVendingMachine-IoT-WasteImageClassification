@@ -1,9 +1,9 @@
 import numpy as np
-import tensorflow as tf
+import tflite_runtime.interpreter as tflite
 import cv2
 
 # Load the TFLite model and allocate tensors
-interpreter = tf.lite.Interpreter(model_path="model.tflite")
+interpreter = tflite.Interpreter(model_path="model.tflite")
 interpreter.allocate_tensors()
 
 # Get input and output tensors
@@ -65,5 +65,5 @@ if __name__ == "__main__":
     label = map_class_to_label(predicted_class)
     
     # Print the result
-    print(f"Predicted Class: {label}")
-    print(f"Probabilities: {probabilities}")
+    print("Predicted Class: " + label)
+    print("Probabilities: " + probabilities")
