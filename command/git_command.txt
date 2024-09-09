@@ -1,0 +1,14 @@
+# repo directory
+cd ~/Desktop/waste_classification/RaspberryPi-WasteImageClassification
+
+# Before doing anything - Update to the latest version
+git pull origin main
+
+## Upload latest file to github
+
+# add all modified and new files to staging area, commit and push
+git add .  
+
+git commit -m "commit message"
+
+git push origin main

@@ -1,0 +1,31 @@
+## Navigate to waste_classification folder
+
+# To activate env
+source ./activate_env.sh
+
+# To install library (with pip)
+- pip3 install packageName    or
+- python3 -m pip install packageName
+
+If Error: These packages Do Not Match The Hashes 
+python3 -m pip install --no-cache-dir packageName
+
+
+
+## To run the script (after virtual env activated)
+# Full Path (Git Repo)- /home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification
+cd ../RaspberryPi-WasteImageClassification
+python3 waste_classification_tflite.py
+
+# Check Pi memory usage:
+Run the command in another terminal while runing py script
+watch -n 1 free -h
+
+
+# Use this command to export the list of packages in current python environment (All the versions)
+pip freeze > requirements.txt
+
+# To recreate the environment (requirements.txt is the path to your requirement file)
+pip install -r requirements.txt
+
+
