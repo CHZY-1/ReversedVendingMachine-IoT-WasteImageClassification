@@ -55,10 +55,10 @@ def map_class_to_label(predicted_class):
     else:
         return "Non-Plastic"
 
-# Main script to test the inference
 if __name__ == "__main__":
-    # Replace this with the path to your test image
+    
     image_path = "plastic_bottle.jpg"
+    #image_path = "plastic110_in_dataset.jpg"
     
     # Run inference on the image
     predicted_class, confidence_score, probabilities = run_inference(image_path)
