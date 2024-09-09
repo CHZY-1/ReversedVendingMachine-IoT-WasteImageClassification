@@ -43,8 +43,10 @@ def run_inference(image_path):
     
     # Find the class with the highest probability
     predicted_class = np.argmax(output_data)
+
+    confidence_score = np.max(output_data)
     
-    return predicted_class, output_data
+    return predicted_class, confidence_score, output_data
 
 # Map the predicted class to labels
 def map_class_to_label(predicted_class):
@@ -59,12 +61,12 @@ if __name__ == "__main__":
     image_path = "plastic_bottle.jpg"
     
     # Run inference on the image
-    predicted_class, probabilities = run_inference(image_path)
+    predicted_class, confidence_score, probabilities = run_inference(image_path)
     
     # Map the predicted class to a label
     label = map_class_to_label(predicted_class)
     
-    # Print the result
     print("Predicted Class: " + label)
+    print(f"Confidence Score: {confidence_score:.4f}")
     print("Probabilities: ")
     print(probabilities)
