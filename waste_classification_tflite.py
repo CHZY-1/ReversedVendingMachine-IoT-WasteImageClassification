@@ -66,4 +66,5 @@ if __name__ == "__main__":
     
     # Print the result
     print("Predicted Class: " + label)
-    print("Probabilities: " + probabilities)
+    print("Probabilities: ")
+    print(probabilities)
