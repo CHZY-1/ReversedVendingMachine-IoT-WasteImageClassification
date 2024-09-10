@@ -31,6 +31,7 @@ pyasn1-modules==0.3.0
 pycparser==2.21
 PyJWT==2.8.0
 pyparsing==3.1.4
+python-dotenv==0.21.1
 requests==2.31.0
 rsa==4.9
 tflite-runtime==2.11.0
