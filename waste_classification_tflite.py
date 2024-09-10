@@ -1,9 +1,14 @@
 import numpy as np
 import tflite_runtime.interpreter as tflite
 import cv2
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+tflite_model = os.getenv("TF_LITE_MODEL")
 
 # Load the TFLite model and allocate tensors
-interpreter = tflite.Interpreter(model_path="model.tflite")
+interpreter = tflite.Interpreter(model_path=tflite_model)
 interpreter.allocate_tensors()
 
 # Get input and output tensors
@@ -57,7 +62,7 @@ def map_class_to_label(predicted_class):
 
 if __name__ == "__main__":
     
-    image_path = "plastic_bottle.jpg"
+    image_path = "sample_data/plastic_bottle.jpg"
     #image_path = "plastic110_in_dataset.jpg"
     
     # Run inference on the image
