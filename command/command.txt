@@ -11,11 +11,14 @@ If Error: These packages Do Not Match The Hashes
 python3 -m pip install --no-cache-dir packageName
 
 
-
 ## To run the script (after virtual env activated)
 # Full Path (Git Repo)- /home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification
 cd ../RaspberryPi-WasteImageClassification
 python3 waste_classification_tflite.py
+
+
+# Change permission 
+sudo chmod -R 755 /home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification
 
 # Check Pi memory usage:
 Run the command in another terminal while runing py script
