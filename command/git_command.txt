@@ -3,6 +3,10 @@ git clone <repo_url>
 # repo directory
 cd ~/Desktop/waste_classification/RaspberryPi-WasteImageClassification
 
+# set author identity 
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
 
 ## Setup Git authentication in Pi - use github personal access token (For Https) one of the option, another option is SSH
 1. Go to Github settings -> Developer settings -> Personal Access Tokens.
@@ -12,7 +16,7 @@ cd ~/Desktop/waste_classification/RaspberryPi-WasteImageClassification
 	git remote set-url origin https://<Your_GITHUB_USERNAME>:<PERSONAL_ACCESS_TOKEN>@<LINK_OF_GITHUB_REPO>
 
 example:
-	git remote set-url origin https://<Your_GITHUB_USERNAME>:<PERSONAL_ACCESS_TOKEN>/CHZY-1/RaspberryPi-WasteImageClassification.git
+	git remote set-url origin https://<Your_GITHUB_USERNAME>:<PERSONAL_ACCESS_TOKEN>@github.com/CHZY-1/RaspberryPi-WasteImageClassification.git
 
 Then use : git remote -v to check 
 
