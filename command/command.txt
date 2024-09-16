@@ -31,4 +31,6 @@ pip freeze > requirements.txt
 # To recreate the environment (requirements.txt is the path to your requirement file)
 pip install -r requirements.txt
 
+# numpy-1.22.0 works for pi5
+
 

@@ -65,11 +65,11 @@ def map_class_to_label(predicted_class):
 
 if __name__ == "__main__":
     
-    image_path = sys.argv[1]
+    # image_path = sys.argv[1]
     
     # image_path = '/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/sample_data/metal111_in_dataset.jpg'
     
-    # image_path = '/home/pi/Pictures/captured_image.jpg'
+    image_path = '/home/pi/Pictures/captured_image.jpg'
     
     # Run inference on the image
     predicted_class, confidence_score, probabilities = run_inference(image_path)
