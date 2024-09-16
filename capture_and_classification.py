@@ -130,6 +130,7 @@ def map_class_to_label(predicted_class):
 
 if __name__ == "__main__":
     
+    # for testing
     image_path = '/home/pi/Pictures/captured_image.jpg'
     
     # Capture an image
