@@ -10,7 +10,7 @@ import firebase_admin
 from firebase_admin import credentials, storage, db
 
 # Firebase setup
-cred = credentials.Certificate("../pi-practical-firebase-adminsdk-68ehy-32ad82d5fe.json")
+cred = credentials.Certificate("/home/pi/Desktop/waste_classification/pi-practical-firebase-adminsdk-68ehy-8a6c9c4b01.json")
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'gs://pi-practical.appspot.com',
     'databaseURL': 'https://pi-practical-default-rtdb.firebaseio.com/'
@@ -129,8 +129,10 @@ def map_class_to_label(predicted_class):
         return "Others"
 
 if __name__ == "__main__":
+    image_path = "/home/pi/Pictures/captured_image.jpg"
+    
     # Capture an image and get the image path with timestamp
-    image_path = capture_image()
+    # image_path = capture_image()
     
     # Run inference on the captured image
     predicted_class, confidence_score, probabilities = run_inference(image_path)
