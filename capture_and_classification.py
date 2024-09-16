@@ -1,5 +1,5 @@
 import time
-import picamera
+# import picamera
 import numpy as np
 import tflite_runtime.interpreter as tflite
 import cv2
@@ -12,7 +12,7 @@ from firebase_admin import credentials, storage, db
 # Firebase setup
 cred = credentials.Certificate("/home/pi/Desktop/waste_classification/pi-practical-firebase-adminsdk-68ehy-8a6c9c4b01.json")
 firebase_admin.initialize_app(cred, {
-    'storageBucket': 'gs://pi-practical.appspot.com',
+    'storageBucket': 'pi-practical.appspot.com',
     'databaseURL': 'https://pi-practical-default-rtdb.firebaseio.com/'
 })
 
@@ -35,22 +35,22 @@ input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
 # Function to captures an image using the PiCamera and saves it to the specified path.
-def capture_image():
+# def capture_image():
     # Generate a unique file name using the current timestamp
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    image_path = f"/home/pi/Pictures/captured_image_{timestamp}.jpg"
+    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # image_path = f"/home/pi/Pictures/captured_image_{timestamp}.jpg"
     
-    with picamera.PiCamera() as camera:
+    # with picamera.PiCamera() as camera:
         # Set camera resolution
-        camera.resolution = (1024, 768)
+        # camera.resolution = (1024, 768)
         
         # Allow the camera to warm up
-        time.sleep(1)
+        # time.sleep(1)
         
         # Capture the image and save it to the specified path
-        camera.capture(image_path)
+        # camera.capture(image_path)
     
-    return image_path
+   # return image_path
 
 # Function to preprocess the image
 def preprocess_image(image_path):
@@ -129,25 +129,11 @@ def map_class_to_label(predicted_class):
         return "Others"
 
 if __name__ == "__main__":
-    image_path = "/home/pi/Pictures/captured_image.jpg"
     
-    # Capture an image and get the image path with timestamp
-    # image_path = capture_image()
+    image_path = '/home/pi/Pictures/captured_image.jpg'
     
-    # Run inference on the captured image
-    predicted_class, confidence_score, probabilities = run_inference(image_path)
-    
-    # Map the predicted class to a label
-    label = map_class_to_label(predicted_class)
-    
-    # Print the classification result and confidence level
-    print(f"classification_result: {label}")
-    print(f"confidence_level: {confidence_score}")
-
-
-if __name__ == "__main__":
     # Capture an image
-    image_path = capture_image()
+    # image_path = capture_image()
     
     # Run inference on the captured image
     predicted_class, confidence_score, _ = run_inference(image_path)
