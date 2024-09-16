@@ -1,0 +1,214 @@
+[
+    {
+        "id": "d8a8b03ca0bdc51d",
+        "type": "tab",
+        "label": "Smart-Bin-Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8b10913000d2c769",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Calculate Bin Level",
+        "func": "// Distance range\nvar distanceStr = msg.payload.distance;\nvar distance = parseFloat(distanceStr);  // Convert the distance to a float\n\nvar minDistance = 10;  // Minimum distance when the bin is full\nvar maxDistance = 50;  // Maximum distance when the bin is empty\n\n// Calculate the bin level as a percentage (100% full, 0% empty)\nvar binLevel = Math.max(0, Math.min(100, ((maxDistance - distance) / (maxDistance - minDistance)) * 100));\n\n// Pass the bin level to next node\nmsg.payload = binLevel.toFixed(2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 200,
+        "wires": [
+            [
+                "cd160294cd961ee7"
+            ]
+        ]
+    },
+    {
+        "id": "74a57ca5e0726413",
+        "type": "json",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "8b10913000d2c769"
+            ]
+        ]
+    },
+    {
+        "id": "d150efcf6f71dcf7",
+        "type": "mqtt in",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "topic": "topic/ultrasonic_sensor",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3bb6bd8b.d72ce2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "74a57ca5e0726413"
+            ]
+        ]
+    },
+    {
+        "id": "cd160294cd961ee7",
+        "type": "ui_gauge",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "group": "6e4f5d1b97ad152f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Bin Level",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 820,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "2bdf05910190a4fe",
+        "type": "mqtt in",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "topic": "classification/results",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3bb6bd8b.d72ce2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 340,
+        "wires": [
+            [
+                "4f164b562f57c989",
+                "41f51fee55cad19e"
+            ]
+        ]
+    },
+    {
+        "id": "4f164b562f57c989",
+        "type": "debug",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 360,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "af8e24f4d9d52f9f",
+        "type": "firebase modify",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "firebase_modify - send data to firebase",
+        "firebaseconfig": "",
+        "childpath": "data/test",
+        "method": "push",
+        "value": "msg.payload",
+        "priority": "msg.priority",
+        "x": 610,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41f51fee55cad19e",
+        "type": "json",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 370,
+        "y": 340,
+        "wires": [
+            [
+                "af8e24f4d9d52f9f"
+            ]
+        ]
+    },
+    {
+        "id": "3bb6bd8b.d72ce2",
+        "type": "mqtt-broker",
+        "name": "publish",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6e4f5d1b97ad152f",
+        "type": "ui_group",
+        "name": "Smart Recycle Bin",
+        "tab": "be84b5b463f01a88",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "be84b5b463f01a88",
+        "type": "ui_tab",
+        "name": "SmartBin",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]

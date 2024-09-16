@@ -1,0 +1,210 @@
+[
+    {
+        "id": "5c1e04d0f906df89",
+        "type": "tab",
+        "label": "CPU Usage Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7bcfb531c7109b1a",
+        "type": "cpu",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "msgCore": false,
+        "msgOverall": true,
+        "msgArray": false,
+        "msgTemp": true,
+        "x": 310,
+        "y": 160,
+        "wires": [
+            [
+                "a9a58fd8f1baf9b8"
+            ]
+        ]
+    },
+    {
+        "id": "fbbdae166871697c",
+        "type": "inject",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "7bcfb531c7109b1a"
+            ]
+        ]
+    },
+    {
+        "id": "76d70d690777f94b",
+        "type": "debug",
+        "z": "5c1e04d0f906df89",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "08508a1e9acf0b63",
+        "type": "ui_chart",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "group": "edb3b5fa7c70c6b9",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "CPU Usage",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "No Data Available",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 690,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1ba455e29d5628ad",
+        "type": "ui_chart",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "group": "edb3b5fa7c70c6b9",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "CPU Temperature",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "No Data Available",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 710,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9a58fd8f1baf9b8",
+        "type": "switch",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "overall",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "temperature",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 510,
+        "y": 160,
+        "wires": [
+            [
+                "08508a1e9acf0b63"
+            ],
+            [
+                "1ba455e29d5628ad"
+            ]
+        ]
+    },
+    {
+        "id": "edb3b5fa7c70c6b9",
+        "type": "ui_group",
+        "name": "CPU",
+        "tab": "a3208a16f86355ec",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a3208a16f86355ec",
+        "type": "ui_tab",
+        "name": "RPI-5",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
