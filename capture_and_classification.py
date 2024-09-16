@@ -4,6 +4,7 @@ import numpy as np
 import tflite_runtime.interpreter as tflite
 import cv2
 import os
+import json
 from datetime import datetime
 import paho.mqtt.client as mqtt
 import firebase_admin
@@ -112,12 +113,22 @@ def store_to_firebase_db(image_url, classification_result, confidence_score):
 
 # Publish result to MQTT topic
 def publish_to_mqtt(image_url, classification_result, confidence_score):
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     data = {
         "imageUrl": image_url,
         "classificationResult": classification_result,
-        "confidenceScore": confidence_score
-    }
-    client.publish(topic, str(data))
+        "confidenceScore": confidence_score,
+        "timestamp": timestamp
+        }
+    
+    # convert numpy float32 to native python float
+    data["confidenceScore"] = float(data["confidenceScore"])
+    
+    # serialize data to json string
+    json_data = json.dumps(data)
+    client.publish(topic, json_data)
+    
+    client.disconnect()
 
 # Map the predicted class to labels
 def map_class_to_label(predicted_class):
