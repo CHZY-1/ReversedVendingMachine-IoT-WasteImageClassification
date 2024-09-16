@@ -19,11 +19,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 590,
+        "x": 570,
         "y": 200,
         "wires": [
             [
-                "cd160294cd961ee7"
+                "8008dfef2ae51546"
             ]
         ]
     },
@@ -35,11 +35,12 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 370,
+        "x": 310,
         "y": 200,
         "wires": [
             [
-                "8b10913000d2c769"
+                "8b10913000d2c769",
+                "86cd260476d5d80c"
             ]
         ]
     },
@@ -56,7 +57,7 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 160,
+        "x": 120,
         "y": 200,
         "wires": [
             [
@@ -88,7 +89,7 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 820,
+        "x": 980,
         "y": 200,
         "wires": []
     },
@@ -105,31 +106,13 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 150,
-        "y": 340,
+        "x": 130,
+        "y": 400,
         "wires": [
             [
-                "4f164b562f57c989",
                 "41f51fee55cad19e"
             ]
         ]
-    },
-    {
-        "id": "4f164b562f57c989",
-        "type": "debug",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": true,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "payload",
-        "statusType": "auto",
-        "x": 360,
-        "y": 420,
-        "wires": []
     },
     {
         "id": "af8e24f4d9d52f9f",
@@ -137,12 +120,12 @@
         "z": "d8a8b03ca0bdc51d",
         "name": "firebase_modify - send data to firebase",
         "firebaseconfig": "",
-        "childpath": "data/test",
+        "childpath": "data/smart-bin",
         "method": "push",
         "value": "msg.payload",
         "priority": "msg.priority",
-        "x": 610,
-        "y": 340,
+        "x": 950,
+        "y": 400,
         "wires": [
             []
         ]
@@ -155,11 +138,134 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 370,
-        "y": 340,
+        "x": 310,
+        "y": 400,
         "wires": [
             [
+                "6727b2543da604b3",
+                "cf1d97d2343bf830"
+            ]
+        ]
+    },
+    {
+        "id": "86cd260476d5d80c",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "store ultrasonic in flow",
+        "func": "flow.set('ultrasonicData', msg.payload)\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6727b2543da604b3",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "combine and send",
+        "func": "var ultrasonicData = flow.get('ultrasonicData');\n\nif(!ultrasonicData){\n    node.warn(\"No ultrasonic data available in flow\");\n    return null;\n}\n\nvar distance = parseFloat(ultrasonicData.distance)\n\nvar combinedData = {\n    classification : msg.payload,\n    ultrasonicSensor : distance + \" cm\",\n}\n\nmsg.payload = combinedData\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 400,
+        "wires": [
+            [
+                "79252158ee77d709",
                 "af8e24f4d9d52f9f"
+            ]
+        ]
+    },
+    {
+        "id": "79252158ee77d709",
+        "type": "debug",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 780,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "8008dfef2ae51546",
+        "type": "delay",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "1",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 800,
+        "y": 200,
+        "wires": [
+            [
+                "cd160294cd961ee7"
+            ]
+        ]
+    },
+    {
+        "id": "d04af8d7d61ced5e",
+        "type": "ui_template",
+        "z": "d8a8b03ca0bdc51d",
+        "group": "6e4f5d1b97ad152f",
+        "name": "Classification Result",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-if=\"msg.payload.dataAvailable\" style=\"text-align:center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;\">\n    <img src=\"{{msg.payload.imageUrl}}\" alt=\"Classified Image\" width=\"250\" height=\"250\">\n    <h5>Classification Result: {{msg.payload.classificationResult}}</h2>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 900,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cf1d97d2343bf830",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Classification Dashboard Logic",
+        "func": "var data = msg.payload;\nvar imageUrl = data.imageUrl || flow.get('lastImageUrl');\nvar classificationResult = data.classificationResult || flow.get('lastClassificationResult');\n\nif(imageUrl && classificationResult){\n    flow.set('lastImageUrl', imageUrl);\n    flow.set('lastClassificationResult', classificationResult);\n\n    msg.payload = {\n        imageUrl: imageUrl,\n        classificationResult: classificationResult,\n        dataAvailable: true\n    }\n} else{\n    msg.payload = {\n        dataAvailable: false\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 500,
+        "wires": [
+            [
+                "d04af8d7d61ced5e"
             ]
         ]
     },
