@@ -133,3 +133,7 @@ def capture_and_classificaiton():
     print(f"Confidence Score: {confidence_score}")
 
     return image_url, classification_result, confidence_score
+
+
+if __name__ == "__main__": 
+    capture_and_classificaiton()

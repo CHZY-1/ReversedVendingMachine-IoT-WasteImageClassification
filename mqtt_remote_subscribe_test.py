@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 
 # MQTT settings
-pi_hostname = "raspberrypi.local"  # Replace with Pi's hostname or IP
+pi_hostname = "raspberrypi5"
 topic = "classification/results"
 
 # Define the callback when the client connects to the broker

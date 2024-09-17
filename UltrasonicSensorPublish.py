@@ -84,7 +84,8 @@ class UltrasonicSensorPublisher:
 
 
 # Import this
-def publish_ultrasonic_sensor_data(sensors : list[dict]):
+# Do not call this in a loop
+def publish_ultrasonic_sensor_data_once(sensors : list[dict]):
     """ Param : sensors -> example
     sensors = [
             {"trigger": 23, "echo": 24},  # Ultrasonic Sensor 1
@@ -99,22 +100,32 @@ def publish_ultrasonic_sensor_data(sensors : list[dict]):
     sensor_publisher.cleanup()
 
 
+def publish_ultrasonic_sensor_data_continuously(sensors: list[dict]):
+    """ Continuously publish sensor data without cleanup in each iteration. """
 
-if __name__ == "__main__":
+    # Initialize the sensor publisher only once
+    sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
+
     try:
-        # List of sensors with trigger and echo pins
-        sensors = [
-            {"trigger": 23, "echo": 24},  # Ultrasonic Sensor 1
-        ]
-
-        # Initialize the ultrasonic sensor class
-        sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
-
         # Continuously publish sensor data
         while True:
-            sensor_publisher.publish_sensor_data()
+            sensor_publisher.publish_sensor_data()  # Publish without cleanup
             time.sleep(1)  # Wait 1 second before the next reading
 
     except KeyboardInterrupt:
         print("Measurement stopped by User")
-        sensor_publisher.cleanup()
+    
+    finally:
+        sensor_publisher.cleanup()  # Clean up GPIO only once when the program exits
+
+
+
+if __name__ == "__main__":
+    
+    # List of sensors with trigger and echo pins
+    sensors = [
+        {"trigger": 23, "echo": 24},  # Ultrasonic Sensor 1
+    ]
+
+    publish_ultrasonic_sensor_data_continuously(sensors)
+
