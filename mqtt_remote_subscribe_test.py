@@ -2,7 +2,8 @@ import paho.mqtt.client as mqtt
 
 # MQTT settings
 pi_hostname = "raspberry-pi-5"
-topic = "classification/results"
+# topic = "classification/results"
+topic = "sensors/ultrasonic"
 
 # Define the callback when the client connects to the broker
 def on_connect(client, userdata, flags, rc):
