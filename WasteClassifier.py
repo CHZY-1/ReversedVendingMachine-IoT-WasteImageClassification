@@ -122,9 +122,6 @@ def capture_and_classificaiton():
     # Upload the image to Firebase Storage and get the URL
     image_url = classifier.upload_image_to_firebase(image_path)
     
-    # Store classification result and image URL in Firebase Realtime Database
-    classifier.store_to_firebase_db(image_url, classification_result, confidence_score)
-    
     # Publish the result to an MQTT topic
     classifier.publish_to_mqtt(image_url, classification_result, confidence_score)
     
