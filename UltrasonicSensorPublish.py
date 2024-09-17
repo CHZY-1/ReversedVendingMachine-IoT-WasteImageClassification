@@ -126,6 +126,8 @@ if __name__ == "__main__":
     sensors = [
         {"trigger": 23, "echo": 24},  # Ultrasonic Sensor 1
     ]
-
-    publish_ultrasonic_sensor_data_continuously(sensors)
+    
+    publish_ultrasonic_sensor_data_once(sensors)
+    
+    # publish_ultrasonic_sensor_data_continuously(sensors)
 
