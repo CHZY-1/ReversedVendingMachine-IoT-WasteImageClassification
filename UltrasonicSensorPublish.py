@@ -125,6 +125,7 @@ if __name__ == "__main__":
     # List of sensors with trigger and echo pins
     sensors = [
         {"trigger": 23, "echo": 24},  # Ultrasonic Sensor 1
+        {"trigger": 23, "echo": 24}
     ]
     
     publish_ultrasonic_sensor_data_once(sensors)
