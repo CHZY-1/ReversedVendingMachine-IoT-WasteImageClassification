@@ -34,7 +34,7 @@ class WasteClassifier:
     def initialize_firebase(cls):
         """Initialize Firebase only once at the class level."""
 
-        cred = credentials.Certificate("/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/pi-practical-firebase-adminsdk-68ehy-df07034f2e.json")
+        cred = credentials.Certificate("/home/pi/Desktop/waste_classification/pi-practical-firebase-adminsdk-68ehy-f8d78e7883.json")
         firebase_admin.initialize_app(cred, {
             'storageBucket': 'pi-practical.appspot.com',
             'databaseURL': 'https://pi-practical-default-rtdb.firebaseio.com/'
@@ -132,7 +132,8 @@ class WasteClassifier:
             print(f"Image URL: {image_url}")
             print(f"Classification Result: {classification_result}")
             print(f"Confidence Score: {confidence_score}")
-
+            
+            self.client.disconnect()
             return image_url, classification_result, confidence_score
 
         except Exception as e:

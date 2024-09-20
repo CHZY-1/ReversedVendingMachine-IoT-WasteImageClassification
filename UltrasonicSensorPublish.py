@@ -40,7 +40,7 @@ class UltrasonicSensorPublisher:
             GPIO.setup(sensor["echo"], GPIO.IN)
             GPIO.output(sensor["trigger"], GPIO.LOW)
 
-        time.sleep(2)  # Allow sensors to settle
+        time.sleep(1)  # Allow sensors to settle
 
     # Function to measure distance for a given trigger and echo pin
     def measure_distance(self, trigger_pin, echo_pin):
@@ -48,6 +48,9 @@ class UltrasonicSensorPublisher:
         GPIO.output(trigger_pin, GPIO.HIGH)
         time.sleep(0.00001)  # 10 microseconds
         GPIO.output(trigger_pin, GPIO.LOW)
+        
+        pulse_start = 0
+        pulse_end = 0
 
         # Measure the duration of the echo pulse
         while GPIO.input(echo_pin) == 0:
@@ -76,6 +79,7 @@ class UltrasonicSensorPublisher:
         # Publish the data as a serialized JSON string
         json_data = json.dumps(sensor_data)
         self.client.publish(self.topic, json_data)
+        self.client.disconnect()
         print(f"Published: {json_data}")
 
     # Clean up GPIO pins
@@ -89,7 +93,6 @@ class UltrasonicSensorPublisher:
 def publish_ultrasonic_sensor_data_once(sensors):
     sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
     sensor_publisher.publish_sensor_data()
-    sensor_publisher.cleanup()
 
 def publish_ultrasonic_sensor_data_continuously(sensors):
     sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
@@ -108,8 +111,8 @@ if __name__ == "__main__":
     
     # List of sensors with trigger and echo pins
     sensors = [
-        {"trigger": 23, "echo": 24},  # Ultrasonic Sensor 1
-        {"trigger": 23, "echo": 24}
+        {"trigger": 23, "echo": 24},  # Left sensor
+        {"trigger": 27, "echo": 22},  # Right sensor
     ]
     
     publish_ultrasonic_sensor_data_once(sensors)

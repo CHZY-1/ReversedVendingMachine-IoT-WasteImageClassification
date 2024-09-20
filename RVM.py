@@ -4,7 +4,7 @@ import os
 import I2C_LCD_driver
 from picamera import PiCamera
 from WasteClassifier import WasteClassifier
-from UltrasonicSensorPublish import UltrasonicSensorPublisher
+from UltrasonicSensorPublish import UltrasonicSensorPublisher, publish_ultrasonic_sensor_data_once
 from servo_motor import setup_servos
 
 # Suppress Warnings
@@ -81,7 +81,7 @@ def dispense_coins(count):
 def main():
     material_count = 0
     try:
-        while True:
+          while True:
             # Step 1: Wait for user input
             GPIO.output(LED_PIN, GPIO.LOW)
             lcd.lcd_clear()
@@ -103,7 +103,7 @@ def main():
             GPIO.output(BUZZER_PIN, GPIO.HIGH)
             time.sleep(5)
             GPIO.output(BUZZER_PIN,GPIO.LOW)
-            
+                        
             # Step 2: Capture and classify image
             image_path = "/home/pi/Pictures/captured_image.jpg"
             capture_image(image_path)
@@ -189,7 +189,7 @@ def main():
                 lcd.lcd_display_string("(NOT YET) Publishing", 1)
                 lcd.lcd_display_string("sensor data...", 2)
                 time.sleep(5)
-                #ultrasonic_publisher.publish_sensor_data()
+                ultrasonic_publisher.publish_sensor_data()
                 time.sleep(2)
                 
                 # Reset and thank user
@@ -209,7 +209,7 @@ def main():
         print("Program stopped by user")
     finally:
         GPIO.cleanup()
-        ultrasonic_publisher.cleanup()
+        # ultrasonic_publisher.cleanup()
         
 
 if __name__ == "__main__":
