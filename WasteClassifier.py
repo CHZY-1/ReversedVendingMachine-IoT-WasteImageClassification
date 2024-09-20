@@ -34,7 +34,7 @@ class WasteClassifier:
     def initialize_firebase(cls):
         """Initialize Firebase only once at the class level."""
 
-        cred = credentials.Certificate("/home/pi/Desktop/waste_classification/pi-practical-firebase-adminsdk-68ehy-8a6c9c4b01.json")
+        cred = credentials.Certificate("/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/pi-practical-firebase-adminsdk-68ehy-df07034f2e.json")
         firebase_admin.initialize_app(cred, {
             'storageBucket': 'pi-practical.appspot.com',
             'databaseURL': 'https://pi-practical-default-rtdb.firebaseio.com/'
@@ -51,8 +51,8 @@ class WasteClassifier:
         img_batch = np.expand_dims(img_normalized, axis=0)
         return img_batch
     
-    # Run inference
     def run_inference(self, image_path):
+        """Run inference on the image using the TFLite model."""
         input_data = self.preprocess_image(image_path)
         self.interpreter.set_tensor(self.input_details[0]['index'], input_data)
         self.interpreter.invoke()
@@ -69,16 +69,6 @@ class WasteClassifier:
         blob.upload_from_filename(image_path)
         blob.make_public()
         return blob.public_url
-    
-    # # Store classification result in Firebase Realtime Database
-    # def store_to_firebase_db(self, image_url, classification_result, confidence_score):
-    #     ref = db.reference('classification_results')
-    #     ref.push({
-    #         'imageUrl': image_url,
-    #         'classificationResult': classification_result,
-    #         'confidenceScore': confidence_score,
-    #         'timestamp': time.strftime("%Y-%m-%d %H:%M:%S")
-    #     })
     
     # Publish result to MQTT topic
     def publish_to_mqtt(self, image_url, classification_result, confidence_score):
@@ -101,36 +91,51 @@ class WasteClassifier:
         else:
             return "Others"
         
+    # def capture_image():
+    #     # Set up the camera
+    #     camera = PiCamera()
+    #     camera.resolution = (640, 480)
+    #     camera.start_preview()
+    
+    #     # Wait for the camera to warm up
+    #     time.sleep(2)
+    
+    #     # Capture an image
+    #     image_path = '/home/pi/Pictures/captured_image.jpg'
+    #     camera.capture(image_path)
+    #     camera.stop_preview()
+    #     camera.close()
+    
+    #     return image_path			
+        
 
-# Import this 
-def capture_and_classificaiton():
-    model_path = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/model/model.tflite"
-    classifier = WasteClassifier(model_path)
-    
-    # Image path for testing
-    image_path = '/home/pi/Pictures/captured_image.jpg'
+    def capture_and_classification(self, image_path):
+        """
+        Perform classification on the captured image and handle related operations.
+        
+        :param image_path: Path to the captured image file
+        :return: Tuple containing (image_url, classification_result, confidence_score)
+        """
+        try:
+            # Run inference on the captured image
+            predicted_class, confidence_score = self.run_inference(image_path)
+            
+            # Map the predicted class to a label
+            classification_result = self.map_class_to_label(predicted_class)
+            
+            # Upload the image to Firebase Storage and get the URL
+            image_url = self.upload_image_to_firebase(image_path)
+            
+            # Publish the result to an MQTT topic
+            self.publish_to_mqtt(image_url, classification_result, confidence_score)
+            
+            print(f"Image URL: {image_url}")
+            print(f"Classification Result: {classification_result}")
+            print(f"Confidence Score: {confidence_score}")
 
-    # Trigger Pi camera
-    # image_path = capture_image()
-    
-    # Run inference on the captured image
-    predicted_class, confidence_score = classifier.run_inference(image_path)
-    
-    # Map the predicted class to a label
-    classification_result = classifier.map_class_to_label(predicted_class)
-    
-    # Upload the image to Firebase Storage and get the URL
-    image_url = classifier.upload_image_to_firebase(image_path)
-    
-    # Publish the result to an MQTT topic
-    classifier.publish_to_mqtt(image_url, classification_result, confidence_score)
-    
-    print(f"Image URL: {image_url}")
-    print(f"Classification Result: {classification_result}")
-    print(f"Confidence Score: {confidence_score}")
+            return image_url, classification_result, confidence_score
 
-    return image_url, classification_result, confidence_score
-
-
-if __name__ == "__main__": 
-    capture_and_classificaiton()
+        except Exception as e:
+            print(f"Error in capture_and_classification: {str(e)}")
+            # Return default values or handle the error as appropriate for your application
+            return None, "Error", 0.0

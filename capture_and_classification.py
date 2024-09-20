@@ -36,22 +36,22 @@ input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
 # Function to captures an image using the PiCamera and saves it to the specified path.
-# def capture_image():
-    # Generate a unique file name using the current timestamp
-    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    # image_path = f"/home/pi/Pictures/captured_image_{timestamp}.jpg"
+def capture_image():
+    Generate a unique file name using the current timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    image_path = f"/home/pi/Pictures/captured_image_{timestamp}.jpg"
     
-    # with picamera.PiCamera() as camera:
-        # Set camera resolution
-        # camera.resolution = (1024, 768)
+    with picamera.PiCamera() as camera:
+        Set camera resolution
+        camera.resolution = (1024, 768)
         
-        # Allow the camera to warm up
-        # time.sleep(1)
+        Allow the camera to warm up
+        time.sleep(1)
         
-        # Capture the image and save it to the specified path
-        # camera.capture(image_path)
+        Capture the image and save it to the specified path
+        camera.capture(image_path)
     
-   # return image_path
+   return image_path
 
 # Function to preprocess the image
 def preprocess_image(image_path):
@@ -142,10 +142,10 @@ def map_class_to_label(predicted_class):
 if __name__ == "__main__":
     
     # for testing
-    image_path = '/home/pi/Pictures/captured_image.jpg'
+    # image_path = '/home/pi/Pictures/captured_image.jpg'
     
     # Capture an image
-    # image_path = capture_image()
+    image_path = capture_image()
     
     # Run inference on the captured image
     predicted_class, confidence_score, _ = run_inference(image_path)

@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import json
 import paho.mqtt.client as mqtt
+from typing import List, Dict
 
 class UltrasonicSensorPublisher:
     def __init__(self, sensors, broker_address="localhost", topic="sensors/ultrasonic"):
@@ -85,38 +86,21 @@ class UltrasonicSensorPublisher:
 
 # Import this
 # Do not call this in a loop
-def publish_ultrasonic_sensor_data_once(sensors : list[dict]):
-    """ Param : sensors -> example
-    sensors = [
-            {"trigger": 23, "echo": 24},  # Ultrasonic Sensor 1
-            {"trigger": 17, "echo": 22},  # Ultrasonic Sensor 2
-        ]
-    """
-
+def publish_ultrasonic_sensor_data_once(sensors: List[Dict[str, int]]):
     sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
-
     sensor_publisher.publish_sensor_data()
-
     sensor_publisher.cleanup()
 
-
-def publish_ultrasonic_sensor_data_continuously(sensors: list[dict]):
-    """ Continuously publish sensor data without cleanup in each iteration. """
-
-    # Initialize the sensor publisher only once
+def publish_ultrasonic_sensor_data_continuously(sensors: List[Dict[str, int]]):
     sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
-
     try:
-        # Continuously publish sensor data
         while True:
-            sensor_publisher.publish_sensor_data()  # Publish without cleanup
-            time.sleep(1)  # Wait 1 second before the next reading
-
+            sensor_publisher.publish_sensor_data()
+            time.sleep(1)
     except KeyboardInterrupt:
         print("Measurement stopped by User")
-    
     finally:
-        sensor_publisher.cleanup()  # Clean up GPIO only once when the program exits
+        sensor_publisher.cleanup()
 
 
 
