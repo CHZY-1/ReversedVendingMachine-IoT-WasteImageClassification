@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 
 # MQTT settings
-pi_hostname = "raspberry-pi-5"
+pi_hostname = "RVMPi.local"
 # topic = "classification/results"
 topic = "sensors/ultrasonic"
 
