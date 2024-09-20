@@ -13,7 +13,7 @@ class WasteClassifier:
     firebase_initialized = False
     bucket = None
 
-    def __init__(self, model_path, mqtt_manager, topic="classification/results"):
+    def __init__(self, mqtt_manager, model_path, topic="classification/results"):
         if not WasteClassifier.firebase_initialized:
             self.initialize_firebase()
 
@@ -132,7 +132,6 @@ class WasteClassifier:
             print(f"Classification Result: {classification_result}")
             print(f"Confidence Score: {confidence_score}")
             
-            self.client.disconnect()
             return image_url, classification_result, confidence_score
 
         except Exception as e:

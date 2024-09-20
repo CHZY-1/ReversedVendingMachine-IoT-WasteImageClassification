@@ -4,16 +4,12 @@ import os
 import I2C_LCD_driver
 from picamera import PiCamera
 from WasteClassifier import WasteClassifier
-<<<<<<< HEAD
-from UltrasonicSensorPublish import UltrasonicSensorPublisher, publish_ultrasonic_sensor_data_once
-=======
 from UltrasonicSensorPublish import UltrasonicSensorPublisher
-from mqtt_manager import MQTTManager
->>>>>>> 483b7cb299592b3f46856483d98d047a9f6e11c2
+from MQTTManager import MQTTManager
 from servo_motor import setup_servos
 
 mqtt_manager = MQTTManager(broker_address="RVMPi.local")
-mqtt_manager.connect()
+# mqtt_manager.connect()
 
 # Suppress Warnings
 GPIO.setwarnings(False)
@@ -47,14 +43,14 @@ lcd = I2C_LCD_driver.I2C_LCD_driver()
 
 # Initialize WasteClassifier
 model_path = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/model/model.tflite"
-waste_classifier = WasteClassifier(model_path)
+waste_classifier = WasteClassifier(mqtt_manager, model_path)
 
 # Initialize UltrasonicSensorPublisher
 ULTRASONIC_SENSORS = [
     {"trigger": 23, "echo": 24},  # Left sensor
     {"trigger": 27, "echo": 22},  # Right sensor
 ]
-ultrasonic_publisher = UltrasonicSensorPublisher(ULTRASONIC_SENSORS)
+ultrasonic_publisher = UltrasonicSensorPublisher(ULTRASONIC_SENSORS, mqtt_manager)
 
 def capture_image(image_path):
     """Capture an image using the Raspberry Pi camera."""
@@ -88,6 +84,8 @@ def dispense_coins(count):
 
 def main():
     material_count = 0
+    mqtt_manager.connect()
+    ultrasonic_publisher.publish_sensor_data()
     try:
           while True:
             # Step 1: Wait for user input
@@ -124,6 +122,7 @@ def main():
             # Classify the captured image
             image_url, classification_result, confidence_score = waste_classifier.capture_and_classification(image_path)
             confidende_score = float(confidence_score)
+            
             
             # Turn off LED
             GPIO.output(LED_PIN, GPIO.LOW)
@@ -171,6 +170,7 @@ def main():
                 time.sleep(5)
             time.sleep(2)
             
+            ultrasonic_publisher.publish_sensor_data()
             material_count += 1
             
             lcd.lcd_clear()
@@ -194,11 +194,9 @@ def main():
                 
                 # Publish ultrasonic sensor data
                 lcd.lcd_clear()
-                lcd.lcd_display_string("(NOT YET) Publishing", 1)
+                lcd.lcd_display_string("Publishing", 1)
                 lcd.lcd_display_string("sensor data...", 2)
                 time.sleep(5)
-                ultrasonic_publisher.publish_sensor_data()
-                time.sleep(2)
                 
                 # Reset and thank user
                 material_count = 0
@@ -217,7 +215,8 @@ def main():
         print("Program stopped by user")
     finally:
         GPIO.cleanup()
-        # ultrasonic_publisher.cleanup()
+        mqtt_manager.disconnect()
+        ultrasonic_publisher.cleanup()
         
 
 if __name__ == "__main__":

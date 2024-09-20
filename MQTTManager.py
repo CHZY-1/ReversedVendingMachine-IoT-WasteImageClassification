@@ -15,7 +15,7 @@ class MQTTManager:
         self.client.loop_start()
 
     def on_connect(self, client, userdata, flags, rc):
-        print(f"Connected with result code {rc}")
+        print(f"MQTT Connected with result code {rc}")
         for topic in self.subscriptions:
             self.client.subscribe(topic)
 
@@ -26,10 +26,10 @@ class MQTTManager:
     def publish(self, topic, message):
         self.client.publish(topic, json.dumps(message))
 
-    def subscribe(self, topic, callback):
-        self.subscriptions[topic] = callback
-        if self.client.is_connected():
-            self.client.subscribe(topic)
+    # def subscribe(self, topic, callback):
+    #   self.subscriptions[topic] = callback
+    #   if self.client.is_connected():
+    #       self.client.subscribe(topic)
 
     def disconnect(self):
         self.client.loop_stop()

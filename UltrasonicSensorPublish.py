@@ -77,12 +77,7 @@ class UltrasonicSensorPublisher:
 
         # Publish the data as a serialized JSON string
         json_data = json.dumps(sensor_data)
-<<<<<<< HEAD
-        self.client.publish(self.topic, json_data)
-        self.client.disconnect()
-=======
         self.mqtt_manager.publish(self.topic, json_data)
->>>>>>> 483b7cb299592b3f46856483d98d047a9f6e11c2
         print(f"Published: {json_data}")
 
     # Clean up GPIO pins
