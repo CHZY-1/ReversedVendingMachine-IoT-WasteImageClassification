@@ -5,7 +5,11 @@ import I2C_LCD_driver
 from picamera import PiCamera
 from WasteClassifier import WasteClassifier
 from UltrasonicSensorPublish import UltrasonicSensorPublisher
+from mqtt_manager import MQTTManager
 from servo_motor import setup_servos
+
+mqtt_manager = MQTTManager(broker_address="RVMPi.local")
+mqtt_manager.connect()
 
 # Suppress Warnings
 GPIO.setwarnings(False)

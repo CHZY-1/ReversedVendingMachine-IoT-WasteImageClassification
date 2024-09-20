@@ -13,13 +13,12 @@ class WasteClassifier:
     firebase_initialized = False
     bucket = None
 
-    def __init__(self, model_path, broker_address="localhost", topic="classification/results"):
+    def __init__(self, model_path, mqtt_manager, topic="classification/results"):
         if not WasteClassifier.firebase_initialized:
             self.initialize_firebase()
 
         # Initialize MQTT
-        self.client = mqtt.Client()
-        self.client.connect(broker_address)
+        self.mqtt_manager = mqtt_manager
         self.topic = topic
         
         # Load the TFLite model and allocate tensors
@@ -80,7 +79,7 @@ class WasteClassifier:
             "timestamp": timestamp
         }
         json_data = json.dumps(data)
-        self.client.publish(self.topic, json_data)
+        self.mqtt_manager.publish(self.topic, json_data)
     
     # Map the predicted class to labels
     def map_class_to_label(self, predicted_class):

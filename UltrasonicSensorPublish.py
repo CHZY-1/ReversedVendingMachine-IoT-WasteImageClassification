@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 from typing import List, Dict
 
 class UltrasonicSensorPublisher:
-    def __init__(self, sensors, broker_address="localhost", topic="sensors/ultrasonic"):
+    def __init__(self, sensors, mqtt_manager, topic="sensors/ultrasonic"):
         """
         Initialize the UltrasonicSensorPublisher class.
 
@@ -23,8 +23,7 @@ class UltrasonicSensorPublisher:
         """
 
         # MQTT setup
-        self.client = mqtt.Client()
-        self.client.connect(broker_address)
+        self.mqtt_manager = mqtt_manager
         self.topic = topic
 
         # GPIO setup
@@ -75,7 +74,7 @@ class UltrasonicSensorPublisher:
 
         # Publish the data as a serialized JSON string
         json_data = json.dumps(sensor_data)
-        self.client.publish(self.topic, json_data)
+        self.mqtt_manager.publish(self.topic, json_data)
         print(f"Published: {json_data}")
 
     # Clean up GPIO pins
@@ -86,13 +85,13 @@ class UltrasonicSensorPublisher:
 
 # Import this
 # Do not call this in a loop
-def publish_ultrasonic_sensor_data_once(sensors):
-    sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
+def publish_ultrasonic_sensor_data_once(sensors, mqtt_manager):
+    sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, mqtt_manager=mqtt_manager, topic="sensors/ultrasonic")
     sensor_publisher.publish_sensor_data()
     sensor_publisher.cleanup()
 
-def publish_ultrasonic_sensor_data_continuously(sensors):
-    sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
+def publish_ultrasonic_sensor_data_continuously(sensors, mqtt_manager):
+    sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, mqtt_manager=mqtt_manager, topic="sensors/ultrasonic")
     try:
         while True:
             sensor_publisher.publish_sensor_data()
