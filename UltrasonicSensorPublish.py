@@ -86,12 +86,12 @@ class UltrasonicSensorPublisher:
 
 # Import this
 # Do not call this in a loop
-def publish_ultrasonic_sensor_data_once(sensors: List[Dict[str, int]]):
+def publish_ultrasonic_sensor_data_once(sensors):
     sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
     sensor_publisher.publish_sensor_data()
     sensor_publisher.cleanup()
 
-def publish_ultrasonic_sensor_data_continuously(sensors: List[Dict[str, int]]):
+def publish_ultrasonic_sensor_data_continuously(sensors):
     sensor_publisher = UltrasonicSensorPublisher(sensors=sensors, broker_address="localhost", topic="sensors/ultrasonic")
     try:
         while True:
