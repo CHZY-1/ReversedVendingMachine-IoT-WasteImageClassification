@@ -1,0 +1,1616 @@
+[
+    {
+        "id": "79c6bd04.7b19f4",
+        "type": "tab",
+        "label": "Ultrasonic mqtt",
+        "disabled": true,
+        "info": ""
+    },
+    {
+        "id": "5c1e04d0f906df89",
+        "type": "tab",
+        "label": "CPU Usage Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d8a8b03ca0bdc51d",
+        "type": "tab",
+        "label": "Smart-Bin-Dashboard-MQTT",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1a9d116eb709129a",
+        "type": "tab",
+        "label": "Smart-Bin-Dashboard-cloud",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3bb6bd8b.d72ce2",
+        "type": "mqtt-broker",
+        "name": "publish",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "642530beb3426b1c",
+        "type": "firebase config",
+        "firebaseurl": "pi-practical-default-rtdb",
+        "loginType": "none"
+    },
+    {
+        "id": "c915e406f5185aca",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "a3208a16f86355ec",
+        "type": "ui_tab",
+        "name": "RPI-5",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "edb3b5fa7c70c6b9",
+        "type": "ui_group",
+        "name": "CPU",
+        "tab": "a3208a16f86355ec",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "be84b5b463f01a88",
+        "type": "ui_tab",
+        "name": "SmartBin(MQTT Data)",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "6e4f5d1b97ad152f",
+        "type": "ui_group",
+        "name": "Smart Recycle Bin",
+        "tab": "be84b5b463f01a88",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a7f4535e667a8818",
+        "type": "mqtt-broker",
+        "name": "RVMPi-3",
+        "broker": "RVMPi.local",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "766aa4d8f3ddd068",
+        "type": "ui_tab",
+        "name": "SmartBin Cloud (Firebase)",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "163dde46bfd8c18d",
+        "type": "ui_group",
+        "name": "Smart Recycle Bin",
+        "tab": "766aa4d8f3ddd068",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3e59f7b6.d15798",
+        "type": "debug",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 350,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "faa9575b.ea0c18",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "Subscribe to a topic",
+        "info": "youtube - Simple Node-RED and MQTT Tutorial\nchannel - Learn Robotics\n\nin terminal you can use this command to subscribe to a Topic \n\nmosquitto_sub -t topic/ultrasonic_sensor",
+        "x": 170,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "d9c59e1.76c2b6",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "Publish to a topic - broker",
+        "info": "",
+        "x": 190,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "6f45acb2.cd8554",
+        "type": "mqtt out",
+        "z": "79c6bd04.7b19f4",
+        "name": "publish mqtt",
+        "topic": "topic/ultrasonic_sensor",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3bb6bd8b.d72ce2",
+        "x": 490,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d3f57d2a.cf8ca",
+        "type": "mqtt in",
+        "z": "79c6bd04.7b19f4",
+        "name": "subscribe mqtt",
+        "topic": "topic/ultrasonic_sensor",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3bb6bd8b.d72ce2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9145ba0d.670448",
+        "type": "function",
+        "z": "79c6bd04.7b19f4",
+        "name": "format distance",
+        "func": "var distance = msg.payload;\n\nmsg.payload = {\n    // distance: distance + \" cm\"\n    distance: distance\n};\n\nreturn msg; ",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 100,
+        "wires": [
+            [
+                "6f45acb2.cd8554"
+            ]
+        ]
+    },
+    {
+        "id": "854544ec.1179e8",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "Subscribe to a topic and upload to the firebase",
+        "info": "youtube - Simple Node-RED and MQTT Tutorial\nchannel - Learn Robotics\n\nin terminal you can use this command to subscribe to a Topic \n\nmosquitto_sub -t topic/ultrasonic_sensor",
+        "x": 230,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "4dc47d6.713da84",
+        "type": "mqtt in",
+        "z": "79c6bd04.7b19f4",
+        "name": "subscribe mqtt",
+        "topic": "topic/ultrasonic_sensor",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "3bb6bd8b.d72ce2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 440,
+        "wires": [
+            [
+                "3ffdf9a8.eb7596"
+            ]
+        ]
+    },
+    {
+        "id": "158c3c10.b88584",
+        "type": "function",
+        "z": "79c6bd04.7b19f4",
+        "name": "Threshold",
+        "func": "var distanceStr = msg.payload.distance; // to access data {\"distance\" : \"67 cm\"}\n\nvar distance = parseFloat(distanceStr);\n\nvar binHitThreshold = 10; // waste detected <= threshold cm\n\n// var condition = distance < binHitThreshold\n// msg.payload = condition;\n// return msg;\n\nif(distance < binHitThreshold){\n    msg.payload = distance;\n    return msg; //pass msg to next node\n}else{\n    return null; // else do nothing\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f442de3.510602",
+        "type": "debug",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 610,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "3ffdf9a8.eb7596",
+        "type": "json",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 290,
+        "y": 440,
+        "wires": [
+            [
+                "158c3c10.b88584"
+            ]
+        ]
+    },
+    {
+        "id": "ef136fb0.be059",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "info": "The JSON node is important for converting the string into JSON object so that we can access specific data with key like msg.payload.distance\n\n",
+        "x": 280,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "61590c9e.52e934",
+        "type": "firebase modify",
+        "z": "79c6bd04.7b19f4",
+        "name": "firebase_modify - send data to firebase",
+        "firebaseconfig": "642530beb3426b1c",
+        "childpath": "data/test",
+        "method": "push",
+        "value": "msg.payload",
+        "priority": "msg.priority",
+        "x": 690,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "872144f0.538c18",
+        "type": "mqtt in",
+        "z": "79c6bd04.7b19f4",
+        "name": "subscribe mqtt1 ultrasonic",
+        "topic": "topic/ultrasonic_sensor",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "3bb6bd8b.d72ce2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 760,
+        "wires": [
+            [
+                "fbc33ae.55a4ec8"
+            ]
+        ]
+    },
+    {
+        "id": "6f6863f6.e9bf6c",
+        "type": "mqtt in",
+        "z": "79c6bd04.7b19f4",
+        "name": "subscribe mqtt2 timestamp",
+        "topic": "topic/timestamp",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "3bb6bd8b.d72ce2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 820,
+        "wires": [
+            [
+                "bcdfc8e8.17ae78"
+            ]
+        ]
+    },
+    {
+        "id": "781c6831.ccdac8",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "Subscribe to multiple topic (different sensor/category), format into JSON object and upload to the firebase",
+        "info": "youtube - Simple Node-RED and MQTT Tutorial\nchannel - Learn Robotics\n\nin terminal you can use this command to subscribe to a Topic \n\nmosquitto_sub -t topic/ultrasonic_sensor",
+        "x": 420,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "fbc33ae.55a4ec8",
+        "type": "json",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 330,
+        "y": 760,
+        "wires": [
+            [
+                "1f4f60c4.5c4f7f"
+            ]
+        ]
+    },
+    {
+        "id": "47e30539.472c7c",
+        "type": "function",
+        "z": "79c6bd04.7b19f4",
+        "name": "Combine and format",
+        "func": "var ultrasonicDistance = global.get('distance');\n\nvar timestamp = global.get('timestamp');\n// var timestamp = new Date().toISOString();\n\n// check if all sensors reported their data\nif(ultrasonicDistance && timestamp){\n    \n    msg.payload = {\n        \"timestamp\" : timestamp,\n        \"distance\" : ultrasonicDistance,\n        \"sensors\": {\n            \"ultrasonic\" : {\n                \"distance\" : ultrasonicDistance\n            }\n        }\n    };\n    \n    // clear flow context for next round of data collection\n    // flow.set('ultrasonicDistance', null);\n    global.set('distance', null);\n    global.set('timestamp', null);\n    \n    return msg;\n    \n}else{\n    // node.warn(\"waiting for all sensor data\");\n    return null;\n}\n\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 920,
+        "wires": [
+            [
+                "8710bfe7.64d6d"
+            ]
+        ]
+    },
+    {
+        "id": "bcd8f8bd.e46a98",
+        "type": "mqtt out",
+        "z": "79c6bd04.7b19f4",
+        "name": "publish mqtt timestamp",
+        "topic": "topic/timestamp",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3bb6bd8b.d72ce2",
+        "x": 390,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "bf1dc937.60a2e8",
+        "type": "inject",
+        "z": "79c6bd04.7b19f4",
+        "name": "inject timestamp",
+        "props": [
+            {
+                "p": "payload.timestamp",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "0.5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 150,
+        "y": 700,
+        "wires": [
+            [
+                "bcd8f8bd.e46a98"
+            ]
+        ]
+    },
+    {
+        "id": "2d9cba2b.3d0986",
+        "type": "debug",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 850,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "1f4f60c4.5c4f7f",
+        "type": "function",
+        "z": "79c6bd04.7b19f4",
+        "name": "add data into global context",
+        "func": "global.set('distance', msg.payload.distance);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "56db21a6.358f3",
+        "type": "inject",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "props": [],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "x": 110,
+        "y": 920,
+        "wires": [
+            [
+                "47e30539.472c7c"
+            ]
+        ]
+    },
+    {
+        "id": "25109c04.d78124",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "get data and upload it",
+        "info": "Retrieved data from flow context every 10 seconds (as specify in the inject node), combines it into JSON formatted object then display it.",
+        "x": 240,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "854e1bda.236608",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "info": "stores data into the flow context.\n\nNote that each key must be unique such as msg.payload.distance or msg.payload.timestamp\n\nyou can refer to publish function or inject timestamp for formatting msg.payload string. ",
+        "x": 800,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "8676811a.73f1c",
+        "type": "firebase modify",
+        "z": "79c6bd04.7b19f4",
+        "name": "firebase_modify - send data to firebase",
+        "firebaseconfig": "642530beb3426b1c",
+        "childpath": "data/test",
+        "method": "push",
+        "value": "msg.payload",
+        "priority": "msg.priority",
+        "x": 910,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8710bfe7.64d6d",
+        "type": "function",
+        "z": "79c6bd04.7b19f4",
+        "name": "Threshold",
+        "func": "var data = msg.payload;\n\nvar distanceStr = data.sensors.ultrasonic.distance; // to access data {\"distance\" : \"67 cm\"}\n\nvar distance = parseFloat(distanceStr);\n\nvar binHitThreshold = 20; // waste detected <= threshold cm\n\nif(distance < binHitThreshold){\n    return msg; //pass msg\n}else{\n    return null;\n}\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bcdfc8e8.17ae78",
+        "type": "json",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 330,
+        "y": 820,
+        "wires": [
+            [
+                "74d536d5.c04ce8"
+            ]
+        ]
+    },
+    {
+        "id": "74d536d5.c04ce8",
+        "type": "function",
+        "z": "79c6bd04.7b19f4",
+        "name": "add data into global context",
+        "func": "global.set('timestamp', msg.payload.timestamp);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "55644560.2c29ac",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "important",
+        "info": "You cannot connect different (2 or more) mqtt subsribe at once to json or add data into flow/global contex node. if doing so, each mqtt node will be process in sequential. ",
+        "x": 800,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "26cab353.97765c",
+        "type": "comment",
+        "z": "79c6bd04.7b19f4",
+        "name": "camera -> classification -> cloud",
+        "info": "1. trigger to take picture (temporarily)\n2. runing classification model\n3. perform action\n4. upload image to firebase storage\n5. upload image url of firebase storage url and classification label in realtime database",
+        "x": 300,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "f1c7a619.0a5d98",
+        "type": "inject",
+        "z": "79c6bd04.7b19f4",
+        "name": "Trigger picture",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 1220,
+        "wires": [
+            [
+                "6bfd3f00.14601"
+            ]
+        ]
+    },
+    {
+        "id": "6bfd3f00.14601",
+        "type": "exec",
+        "z": "79c6bd04.7b19f4",
+        "command": "source /home/pi/Desktop/waste_classification/capture_and_classify.sh",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "exec camera_capture.py script",
+        "x": 390,
+        "y": 1220,
+        "wires": [
+            [
+                "84f1e9b7.724ad8",
+                "a6d0f570.c9e548"
+            ],
+            [
+                "84f1e9b7.724ad8",
+                "a6d0f570.c9e548"
+            ],
+            [
+                "84f1e9b7.724ad8"
+            ]
+        ]
+    },
+    {
+        "id": "84f1e9b7.724ad8",
+        "type": "debug",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 670,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "a6d0f570.c9e548",
+        "type": "function",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "func": "var lines = msg.payload.split(\"\\n\");\n\nvar imagePath = null;\nvar classificationResult = null;\nvar confidenceLevel = null;\n\nlines.forEach(function(line){\n    if(line.startsWith(\"image_path: \")){\n        imagePath = line.replace(\"image_path: \", \"\").trim();\n    }\n    if(line.startsWith(\"classification_result: \")){\n        classificationResult = line.replace(\"classification_result: \", \"\").trim();\n    }\n    if(line.startsWith(\"confidence_level:\")){\n        confidenceLevel = line.replace(\"confidence_level: \", \"\").trim();\n    }\n})\n\nmsg.payload = {\n    imagePath: imagePath,\n    classificationResult: classificationResult,\n    confidenceLevel: confidenceLevel\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 1220,
+        "wires": [
+            [
+                "b2696fbc.cdba8"
+            ]
+        ]
+    },
+    {
+        "id": "b2696fbc.cdba8",
+        "type": "debug",
+        "z": "79c6bd04.7b19f4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 890,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "7bcfb531c7109b1a",
+        "type": "cpu",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "msgCore": false,
+        "msgOverall": true,
+        "msgArray": false,
+        "msgTemp": true,
+        "x": 310,
+        "y": 160,
+        "wires": [
+            [
+                "a9a58fd8f1baf9b8"
+            ]
+        ]
+    },
+    {
+        "id": "fbbdae166871697c",
+        "type": "inject",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "7bcfb531c7109b1a"
+            ]
+        ]
+    },
+    {
+        "id": "08508a1e9acf0b63",
+        "type": "ui_chart",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "group": "edb3b5fa7c70c6b9",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "CPU Usage",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "No Data Available",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 690,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1ba455e29d5628ad",
+        "type": "ui_chart",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "group": "edb3b5fa7c70c6b9",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "CPU Temperature",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "No Data Available",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 710,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9a58fd8f1baf9b8",
+        "type": "switch",
+        "z": "5c1e04d0f906df89",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "overall",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "temperature",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 510,
+        "y": 160,
+        "wires": [
+            [
+                "08508a1e9acf0b63"
+            ],
+            [
+                "1ba455e29d5628ad"
+            ]
+        ]
+    },
+    {
+        "id": "8b10913000d2c769",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Calculate Bin Level",
+        "func": "// Retrieve sensor1 and sensor2 values from the flow context\nlet sensor1 = msg.payload.ultrasonic_sensor_1;\nlet sensor2 = msg.payload.ultrasonic_sensor_2;\n\n// Distance range\nvar minDistance = 5;  // Minimum distance when the bin is full\nvar maxDistance = 50;  // Maximum distance when the bin is empty\n\n// Calculate bin level for sensor1\nvar binLevel1 = Math.max(0, Math.min(100, ((maxDistance - sensor1) / (maxDistance - minDistance)) * 100));\n\n// Calculate bin level for sensor2\nvar binLevel2 = Math.max(0, Math.min(100, ((maxDistance - sensor2) / (maxDistance - minDistance)) * 100));\n\n// Pack both bin levels in one object to send to the next node\nmsg.payload = {\n    binLevel1: binLevel1.toFixed(2),  // Two decimal places\n    binLevel2: binLevel2.toFixed(2)   // Two decimal places\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 200,
+        "wires": [
+            [
+                "db870fdefe3b2505"
+            ]
+        ]
+    },
+    {
+        "id": "74a57ca5e0726413",
+        "type": "json",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 310,
+        "y": 200,
+        "wires": [
+            [
+                "8b10913000d2c769",
+                "86cd260476d5d80c"
+            ]
+        ]
+    },
+    {
+        "id": "d150efcf6f71dcf7",
+        "type": "mqtt in",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "topic": "sensors/ultrasonic",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a7f4535e667a8818",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "74a57ca5e0726413"
+            ]
+        ]
+    },
+    {
+        "id": "cd160294cd961ee7",
+        "type": "ui_gauge",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "group": "6e4f5d1b97ad152f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Bin Level 1",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1150,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "2bdf05910190a4fe",
+        "type": "mqtt in",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "topic": "classification/results",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a7f4535e667a8818",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "41f51fee55cad19e"
+            ]
+        ]
+    },
+    {
+        "id": "af8e24f4d9d52f9f",
+        "type": "firebase modify",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "firebase_modify - send data to firebase",
+        "firebaseconfig": "642530beb3426b1c",
+        "childpath": "data/smart-bin",
+        "method": "push",
+        "value": "msg.payload",
+        "priority": "msg.priority",
+        "x": 950,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41f51fee55cad19e",
+        "type": "json",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 310,
+        "y": 400,
+        "wires": [
+            [
+                "cf1d97d2343bf830",
+                "a6a70eb8080d10c6"
+            ]
+        ]
+    },
+    {
+        "id": "86cd260476d5d80c",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "store ultrasonic in flow",
+        "func": "flow.set('ultrasonic_sensor_1', msg.payload.ultrasonic_sensor_1);\nflow.set('ultrasonic_sensor_2', msg.payload.ultrasonic_sensor_2);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "6727b2543da604b3"
+            ]
+        ]
+    },
+    {
+        "id": "6727b2543da604b3",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "combine and send",
+        "func": "if(flow.get('waitingForUltrasonic')){\n    var ultrasonicData1 = flow.get('ultrasonic_sensor_1');\n    var ultrasonicData2 = flow.get('ultrasonic_sensor_2');\n    var classificationData = flow.get('classificationData');\n\n    if(!ultrasonicData1 && !ultrasonicData1){\n        node.warn(\"No ultrasonic data available in flow\");\n        return null;\n    }\n\n    var distance1 = parseFloat(ultrasonicData1)\n    var distance2 = parseFloat(ultrasonicData2)\n\n    var combinedData = {\n        classification: classificationData,\n        ultrasonicSensor : { \n            binLevel1 : distance1 + \" cm\",\n            binLevel2 : distance2 + \" cm\"\n            }\n        };\n\n    flow.set('waitingForUltrasonic', false);\n\n    msg.payload = combinedData\n    return msg;\n}else{\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "af8e24f4d9d52f9f",
+                "ad53d10343ea8143"
+            ]
+        ]
+    },
+    {
+        "id": "d04af8d7d61ced5e",
+        "type": "ui_template",
+        "z": "d8a8b03ca0bdc51d",
+        "group": "6e4f5d1b97ad152f",
+        "name": "Classification Result",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-if=\"msg.payload.dataAvailable\" style=\"text-align:center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;\">\n    <img src=\"{{msg.payload.imageUrl}}\" alt=\"Classified Image\" width=\"250\" height=\"250\">\n    <h5>Classification Result: {{msg.payload.classificationResult}}</h2>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 900,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cf1d97d2343bf830",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Classification Dashboard Logic",
+        "func": "var data = msg.payload;\nvar imageUrl = data.imageUrl || flow.get('lastImageUrl');\nvar classificationResult = data.classificationResult || flow.get('lastClassificationResult');\n\nif(imageUrl && classificationResult){\n    flow.set('lastImageUrl', imageUrl);\n    flow.set('lastClassificationResult', classificationResult);\n\n    msg.payload = {\n        imageUrl: imageUrl,\n        classificationResult: classificationResult,\n        dataAvailable: true\n    }\n} else{\n    msg.payload = {\n        dataAvailable: false\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 500,
+        "wires": [
+            [
+                "d04af8d7d61ced5e"
+            ]
+        ]
+    },
+    {
+        "id": "46a9cd43b5a86c64",
+        "type": "ui_gauge",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "group": "6e4f5d1b97ad152f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Bin Level 2",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1150,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "db870fdefe3b2505",
+        "type": "split",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "property": "payload",
+        "x": 790,
+        "y": 200,
+        "wires": [
+            [
+                "4c29cb7824c08c6f"
+            ]
+        ]
+    },
+    {
+        "id": "4c29cb7824c08c6f",
+        "type": "switch",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "parts.key",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "binLevel1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "binLevel2",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 950,
+        "y": 200,
+        "wires": [
+            [
+                "cd160294cd961ee7"
+            ],
+            [
+                "46a9cd43b5a86c64"
+            ]
+        ]
+    },
+    {
+        "id": "a6a70eb8080d10c6",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Store Classification Data",
+        "func": "flow.set('classificationData', msg.payload);\nflow.set('waitingForUltrasonic', true);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ad53d10343ea8143",
+        "type": "debug",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 800,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8ee8833083636be3",
+        "type": "comment",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Smart Recycle Bin MQTT Data Subscription and Visualization Flow",
+        "info": "This flow subscribes to MQTT topics for ultrasonic sensor data (sensors/ultrasonic) and classification results (classification/results). \nIt processes the received data to calculate bin fullness percentages, combines data streams, and sends updates to Firebase Realtime Database. \nThe processed data is then visualized on the Node-RED dashboard, providing real-time monitoring of bin levels and classification results for effective waste management.",
+        "x": 680,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "4ca0c09c36d5b679",
+        "type": "firebase.on",
+        "z": "1a9d116eb709129a",
+        "name": "Firebase Retrieve Data",
+        "firebaseconfig": "642530beb3426b1c",
+        "childpath": "data/smart-bin",
+        "atStart": true,
+        "eventType": "value",
+        "queries": [
+            {
+                "name": "orderByChild",
+                "value": "classification/timestamp"
+            },
+            {
+                "name": "limitToLast",
+                "value": "1"
+            }
+        ],
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "36d5f5da43627f9a"
+            ]
+        ]
+    },
+    {
+        "id": "36d5f5da43627f9a",
+        "type": "json",
+        "z": "1a9d116eb709129a",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "45891fc83c6a9a20"
+            ]
+        ]
+    },
+    {
+        "id": "45891fc83c6a9a20",
+        "type": "function",
+        "z": "1a9d116eb709129a",
+        "name": "Parse retrieved data ",
+        "func": "let data = msg.payload;\n\n// Extract the first property from the data object\nlet firstKey = Object.keys(data)[0];  // Gets the first key from the object\nlet entry = data[firstKey];  // Access the data inside the first key\n\n// Extract the required data from the entry\nlet imageUrl = entry.classification.imageUrl;\nlet classificationResult = entry.classification.classificationResult;\nlet confidenceScore = entry.classification.confidenceScore;\nlet binLevel1 = entry.ultrasonicSensor.binLevel1;\nlet binLevel2 = entry.ultrasonicSensor.binLevel2;\n\n// Retrieve the timestamp and convert it to a readable format\nlet timestamp = entry.classification.timestamp;\n// Convert the timestamp to a readable date format\nlet formattedTime = timestamp.replace(/_/g, ' ').replace(/(\\d{4})(\\d{2})(\\d{2})/, '$3/$2/$1').replace(/(\\d{2})(\\d{2})(\\d{2})/, '$1:$2:$3');\n\n// Attach the extracted data to msg for further processing\nmsg.url = imageUrl;\nmsg.data = {\n    classificationResult,\n    confidenceScore,\n    binLevel1,\n    binLevel2,\n    timestamp:formattedTime\n};\n\n// Return the modified msg object\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 240,
+        "wires": [
+            [
+                "7deaf6355e17c074",
+                "1f2d2e933be0d0a4"
+            ]
+        ]
+    },
+    {
+        "id": "37fe86012bb9d043",
+        "type": "http request",
+        "z": "1a9d116eb709129a",
+        "name": "GET Storage Image ",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 620,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a28f6a887f8451c7",
+        "type": "comment",
+        "z": "1a9d116eb709129a",
+        "name": "Pass URL to HTTP request GET",
+        "info": "explictly set msg.url = your actual url\nIn the HTTP request node leave the url field empty",
+        "x": 590,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "6bdc7c535070984c",
+        "type": "ui_gauge",
+        "z": "1a9d116eb709129a",
+        "name": "",
+        "group": "163dde46bfd8c18d",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Bin Level 1",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1470,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "a5eb34080174d5cb",
+        "type": "ui_gauge",
+        "z": "1a9d116eb709129a",
+        "name": "",
+        "group": "163dde46bfd8c18d",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Bin Level 2",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1470,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1f2d2e933be0d0a4",
+        "type": "ui_template",
+        "z": "1a9d116eb709129a",
+        "group": "163dde46bfd8c18d",
+        "name": "Classification Result",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"text-align:center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;\">\n    <img src=\"{{msg.url}}\" alt=\"Classified Image\" width=\"250\" height=\"250\">\n    <h5>Most Recent Classification Result: {{msg.data.classificationResult}}</h2>\n    <h5>Time: {{msg.data.timestamp}}</h2>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1140,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7deaf6355e17c074",
+        "type": "function",
+        "z": "1a9d116eb709129a",
+        "name": "Convert To Percentage",
+        "func": "// Retrieve bin level values from the message payload\nlet binLevel1 = parseFloat(msg.data.binLevel1); // Assuming binLevel1 is a string with units (e.g., \"54.03 cm\")\nlet binLevel2 = parseFloat(msg.data.binLevel2); // Same for binLevel2\n\n// Define the minimum and maximum distances\nlet minDistance = 5;  // Minimum distance (when the bin is full)\nlet maxDistance = 50; // Maximum distance (when the bin is empty)\n\n// Calculate the percentage level for binLevel1\nlet binLevel1Percent = Math.max(0, Math.min(100, ((maxDistance - binLevel1) / (maxDistance - minDistance)) * 100));\n\n// Calculate the percentage level for binLevel2\nlet binLevel2Percent = Math.max(0, Math.min(100, ((maxDistance - binLevel2) / (maxDistance - minDistance)) * 100));\n\n// Set the calculated percentages to the payload for further processing\nmsg.payload = {\n    binLevel1Percent: binLevel1Percent.toFixed(2), // Format to two decimal places\n    binLevel2Percent: binLevel2Percent.toFixed(2)  // Format to two decimal places\n};\n\n// Return the modified message\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 240,
+        "wires": [
+            [
+                "e7339b2c598e4cd9"
+            ]
+        ]
+    },
+    {
+        "id": "e7339b2c598e4cd9",
+        "type": "split",
+        "z": "1a9d116eb709129a",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "property": "payload",
+        "x": 1110,
+        "y": 240,
+        "wires": [
+            [
+                "f8f27dc25f4f86bd"
+            ]
+        ]
+    },
+    {
+        "id": "f8f27dc25f4f86bd",
+        "type": "switch",
+        "z": "1a9d116eb709129a",
+        "name": "",
+        "property": "parts.key",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "binLevel1Percent",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "binLevel2Percent",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1270,
+        "y": 240,
+        "wires": [
+            [
+                "6bdc7c535070984c"
+            ],
+            [
+                "a5eb34080174d5cb"
+            ]
+        ]
+    },
+    {
+        "id": "3ae2eaf1d300fc45",
+        "type": "comment",
+        "z": "1a9d116eb709129a",
+        "name": "Smart Bin Cloud Data Processing and Visualization Flow",
+        "info": "This flow retrieves real-time data from Firebase, including bin levels and classification results. \nIt processes the data to calculate bin fullness percentages, fetches classified images, and displays the information on a Node-RED dashboard for monitoring.",
+        "x": 790,
+        "y": 100,
+        "wires": []
+    }
+]
