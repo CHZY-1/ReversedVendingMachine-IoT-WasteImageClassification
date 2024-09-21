@@ -54,10 +54,10 @@ def connect_to_networks(priority_network, fallback_networks):
         time.sleep(60)
 
 if __name__ == "__main__":
-    priority_network = {"ssid": "thesweetwoman-2.4Ghz", "password": "janice3byy"}
-#    priority_network = {"ssid": "Yy", "password": "0183759772"}
+#    priority_network = {"ssid": "thesweetwoman-2.4Ghz", "password": "janice3byy"}
+    priority_network = {"ssid": "Yy", "password": "0183759772"}
     fallback_networks = [
-#        {"ssid": "thesweetwoman-2.4Ghz", "password": "janice3byy"},
-        {"ssid": "Yy's Phone", "password": "0183759772"}
+        {"ssid": "thesweetwoman-2.4Ghz", "password": "janice3byy"},
+#        {"ssid": "Yy's Phone", "password": "0183759772"}
     ]
     connect_to_networks(priority_network, fallback_networks)

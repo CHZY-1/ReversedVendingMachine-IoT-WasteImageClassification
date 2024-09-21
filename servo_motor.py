@@ -11,6 +11,7 @@ class ServoMotor:
         GPIO.setup(self.pin, GPIO.OUT)
         self.pwm = GPIO.PWM(self.pin, self.freq)
         self.pwm.start(0)
+        time.sleep(0.1)  # Short delay after starting PWM
 
     def angle_to_duty_cycle(self, angle):
         return (angle / 18) + 2
@@ -22,17 +23,21 @@ class ServoMotor:
         
         duty = self.angle_to_duty_cycle(angle)
         self.pwm.ChangeDutyCycle(duty)
-        time.sleep(0.3)  # Allow time for the servo to reach the position
+        time.sleep(2.5)  # Allow more time for the servo to reach the position
         self.pwm.ChangeDutyCycle(0)  # Stop the PWM signal
+        time.sleep(0.1)  # Short delay after stopping PWM
         return True
 
     def cleanup(self):
+        self.pwm.ChangeDutyCycle(0)
+        time.sleep(0.1)
         self.pwm.stop()
 
 class SortingServo(ServoMotor):
     def __init__(self, pin, initial_angle=90):
         super().__init__(pin, min_angle=0, max_angle=180)
         self.initial_angle = initial_angle
+        time.sleep(0.1)  # Short delay before initial rotation
         self.rotate(self.initial_angle)  # Set to initial position on startup
     
     def sort(self, target_angle):
@@ -48,14 +53,20 @@ class SortingServo(ServoMotor):
         return self.sort(50)
 
 class CoinDispenserServo(ServoMotor):
-    def __init__(self, pin):
+    def __init__(self, pin, initial_angle=110):
         super().__init__(pin, min_angle=0, max_angle=180)
+        self.initial_angle = initial_angle
+        self.dispense_angle = 100
+        time.sleep(0.1)  # Short delay before initial rotation
+        self.rotate(self.initial_angle)
     
     def dispense_coin(self):
-        self.rotate(90)
-        time.sleep(0.5)
-        self.rotate(0)
+        self.rotate(110-self.dispense_angle)
+        time.sleep(1.0)
+        self.rotate(self.initial_angle)
+        time.sleep(1.0)  # Reduced delay after returning to initial position
         return True
+
 
 def setup_servos(sort_pin, coin_pin):
     return SortingServo(sort_pin), CoinDispenserServo(coin_pin)

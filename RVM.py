@@ -68,10 +68,10 @@ def user_prompt():
     lcd.lcd_display_string("1: Continue", 1)
     lcd.lcd_display_string("2: Cash Out", 2)
     while True:
-        if GPIO.input(BUTTON_CONTINUE):
+        if not GPIO.input(BUTTON_CONTINUE):
             time.sleep(0.2)
             return "continue"
-        if GPIO.input(BUTTON_STOP):
+        if not GPIO.input(BUTTON_STOP):
             time.sleep(0.2)
             return "stop"
         time.sleep(0.1)
@@ -107,7 +107,7 @@ def main():
             
             # Buzzer Feedback
             GPIO.output(BUZZER_PIN, GPIO.HIGH)
-            time.sleep(5)
+            time.sleep(3)
             GPIO.output(BUZZER_PIN,GPIO.LOW)
                         
             # Step 2: Capture and classify image
