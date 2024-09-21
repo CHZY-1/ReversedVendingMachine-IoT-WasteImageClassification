@@ -1,0 +1,409 @@
+[
+    {
+        "id": "d8a8b03ca0bdc51d",
+        "type": "tab",
+        "label": "Smart-Bin-Dashboard-MQTT",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8b10913000d2c769",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Calculate Bin Level",
+        "func": "// Retrieve sensor1 and sensor2 values from the flow context\nlet sensor1 = msg.payload.ultrasonic_sensor_1;\nlet sensor2 = msg.payload.ultrasonic_sensor_2;\n\n// Distance range\nvar minDistance = 5;  // Minimum distance when the bin is full\nvar maxDistance = 50;  // Maximum distance when the bin is empty\n\n// Calculate bin level for sensor1\nvar binLevel1 = Math.max(0, Math.min(100, ((maxDistance - sensor1) / (maxDistance - minDistance)) * 100));\n\n// Calculate bin level for sensor2\nvar binLevel2 = Math.max(0, Math.min(100, ((maxDistance - sensor2) / (maxDistance - minDistance)) * 100));\n\n// Pack both bin levels in one object to send to the next node\nmsg.payload = {\n    binLevel1: binLevel1.toFixed(2),  // Two decimal places\n    binLevel2: binLevel2.toFixed(2)   // Two decimal places\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 200,
+        "wires": [
+            [
+                "db870fdefe3b2505"
+            ]
+        ]
+    },
+    {
+        "id": "74a57ca5e0726413",
+        "type": "json",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 310,
+        "y": 200,
+        "wires": [
+            [
+                "8b10913000d2c769",
+                "86cd260476d5d80c"
+            ]
+        ]
+    },
+    {
+        "id": "d150efcf6f71dcf7",
+        "type": "mqtt in",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "topic": "sensors/ultrasonic",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a7f4535e667a8818",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "74a57ca5e0726413"
+            ]
+        ]
+    },
+    {
+        "id": "cd160294cd961ee7",
+        "type": "ui_gauge",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "group": "6e4f5d1b97ad152f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Bin Level 1",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1150,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "2bdf05910190a4fe",
+        "type": "mqtt in",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "topic": "classification/results",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a7f4535e667a8818",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "41f51fee55cad19e"
+            ]
+        ]
+    },
+    {
+        "id": "af8e24f4d9d52f9f",
+        "type": "firebase modify",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "firebase_modify - send data to firebase",
+        "firebaseconfig": "",
+        "childpath": "data/smart-bin",
+        "method": "push",
+        "value": "msg.payload",
+        "priority": "msg.priority",
+        "x": 950,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41f51fee55cad19e",
+        "type": "json",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 310,
+        "y": 400,
+        "wires": [
+            [
+                "cf1d97d2343bf830",
+                "a6a70eb8080d10c6"
+            ]
+        ]
+    },
+    {
+        "id": "86cd260476d5d80c",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "store ultrasonic in flow",
+        "func": "flow.set('ultrasonic_sensor_1', msg.payload.ultrasonic_sensor_1);\nflow.set('ultrasonic_sensor_2', msg.payload.ultrasonic_sensor_2);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "6727b2543da604b3"
+            ]
+        ]
+    },
+    {
+        "id": "6727b2543da604b3",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "combine and send",
+        "func": "if(flow.get('waitingForUltrasonic')){\n    var ultrasonicData1 = flow.get('ultrasonic_sensor_1');\n    var ultrasonicData2 = flow.get('ultrasonic_sensor_2');\n    var classificationData = flow.get('classificationData');\n\n    if(!ultrasonicData1 && !ultrasonicData1){\n        node.warn(\"No ultrasonic data available in flow\");\n        return null;\n    }\n\n    var distance1 = parseFloat(ultrasonicData1)\n    var distance2 = parseFloat(ultrasonicData2)\n\n    var combinedData = {\n        classification: classificationData,\n        ultrasonicSensor : { \n            binLevel1 : distance1 + \" cm\",\n            binLevel2 : distance2 + \" cm\"\n            }\n        };\n\n    flow.set('waitingForUltrasonic', false);\n\n    msg.payload = combinedData\n    return msg;\n}else{\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "af8e24f4d9d52f9f",
+                "ad53d10343ea8143"
+            ]
+        ]
+    },
+    {
+        "id": "d04af8d7d61ced5e",
+        "type": "ui_template",
+        "z": "d8a8b03ca0bdc51d",
+        "group": "6e4f5d1b97ad152f",
+        "name": "Classification Result",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-if=\"msg.payload.dataAvailable\" style=\"text-align:center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;\">\n    <img src=\"{{msg.payload.imageUrl}}\" alt=\"Classified Image\" width=\"250\" height=\"250\">\n    <h5>Classification Result: {{msg.payload.classificationResult}}</h2>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 900,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cf1d97d2343bf830",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Classification Dashboard Logic",
+        "func": "var data = msg.payload;\nvar imageUrl = data.imageUrl || flow.get('lastImageUrl');\nvar classificationResult = data.classificationResult || flow.get('lastClassificationResult');\n\nif(imageUrl && classificationResult){\n    flow.set('lastImageUrl', imageUrl);\n    flow.set('lastClassificationResult', classificationResult);\n\n    msg.payload = {\n        imageUrl: imageUrl,\n        classificationResult: classificationResult,\n        dataAvailable: true\n    }\n} else{\n    msg.payload = {\n        dataAvailable: false\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 500,
+        "wires": [
+            [
+                "d04af8d7d61ced5e"
+            ]
+        ]
+    },
+    {
+        "id": "46a9cd43b5a86c64",
+        "type": "ui_gauge",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "group": "6e4f5d1b97ad152f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Bin Level 2",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1150,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "db870fdefe3b2505",
+        "type": "split",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "property": "payload",
+        "x": 790,
+        "y": 200,
+        "wires": [
+            [
+                "4c29cb7824c08c6f"
+            ]
+        ]
+    },
+    {
+        "id": "4c29cb7824c08c6f",
+        "type": "switch",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "",
+        "property": "parts.key",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "binLevel1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "binLevel2",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 950,
+        "y": 200,
+        "wires": [
+            [
+                "cd160294cd961ee7"
+            ],
+            [
+                "46a9cd43b5a86c64"
+            ]
+        ]
+    },
+    {
+        "id": "a6a70eb8080d10c6",
+        "type": "function",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Store Classification Data",
+        "func": "flow.set('classificationData', msg.payload);\nflow.set('waitingForUltrasonic', true);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ad53d10343ea8143",
+        "type": "debug",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 800,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8ee8833083636be3",
+        "type": "comment",
+        "z": "d8a8b03ca0bdc51d",
+        "name": "Smart Recycle Bin MQTT Data Subscription and Visualization Flow",
+        "info": "This flow subscribes to MQTT topics for ultrasonic sensor data (sensors/ultrasonic) and classification results (classification/results). \nIt processes the received data to calculate bin fullness percentages, combines data streams, and sends updates to Firebase Realtime Database. \nThe processed data is then visualized on the Node-RED dashboard, providing real-time monitoring of bin levels and classification results for effective waste management.",
+        "x": 680,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "a7f4535e667a8818",
+        "type": "mqtt-broker",
+        "name": "RVMPi-3",
+        "broker": "RVMPi.local",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6e4f5d1b97ad152f",
+        "type": "ui_group",
+        "name": "Smart Recycle Bin",
+        "tab": "be84b5b463f01a88",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "be84b5b463f01a88",
+        "type": "ui_tab",
+        "name": "SmartBin(MQTT Data)",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]

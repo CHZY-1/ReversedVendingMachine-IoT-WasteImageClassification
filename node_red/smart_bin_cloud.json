@@ -1,84 +1,121 @@
 [
     {
-        "id": "d8a8b03ca0bdc51d",
+        "id": "1a9d116eb709129a",
         "type": "tab",
-        "label": "Smart-Bin-Dashboard",
+        "label": "Smart-Bin-Dashboard-cloud",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "8b10913000d2c769",
+        "id": "4ca0c09c36d5b679",
+        "type": "firebase.on",
+        "z": "1a9d116eb709129a",
+        "name": "Firebase Retrieve Data",
+        "firebaseconfig": "",
+        "childpath": "data/smart-bin",
+        "atStart": true,
+        "eventType": "value",
+        "queries": [
+            {
+                "name": "orderByChild",
+                "value": "classification/timestamp"
+            },
+            {
+                "name": "limitToLast",
+                "value": "1"
+            }
+        ],
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "36d5f5da43627f9a"
+            ]
+        ]
+    },
+    {
+        "id": "36d5f5da43627f9a",
+        "type": "json",
+        "z": "1a9d116eb709129a",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "45891fc83c6a9a20"
+            ]
+        ]
+    },
+    {
+        "id": "45891fc83c6a9a20",
         "type": "function",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "Calculate Bin Level",
-        "func": "// Retrieve sensor1 and sensor2 values from the flow context\nlet sensor1 = msg.payload.ultrasonic_sensor_1;\nlet sensor2 = msg.payload.ultrasonic_sensor_2;\n\n// Distance range\nvar minDistance = 10;  // Minimum distance when the bin is full\nvar maxDistance = 50;  // Maximum distance when the bin is empty\n\n// Calculate bin level for sensor1\nvar binLevel1 = Math.max(0, Math.min(100, ((maxDistance - sensor1) / (maxDistance - minDistance)) * 100));\n\n// Calculate bin level for sensor2\nvar binLevel2 = Math.max(0, Math.min(100, ((maxDistance - sensor2) / (maxDistance - minDistance)) * 100));\n\n// Pack both bin levels in one object to send to the next node\nmsg.payload = {\n    binLevel1: binLevel1.toFixed(2),  // Two decimal places\n    binLevel2: binLevel2.toFixed(2)   // Two decimal places\n};\n\nreturn msg;",
+        "z": "1a9d116eb709129a",
+        "name": "Parse retrieved data ",
+        "func": "let data = msg.payload;\n\n// Extract the first property from the data object\nlet firstKey = Object.keys(data)[0];  // Gets the first key from the object\nlet entry = data[firstKey];  // Access the data inside the first key\n\n// Extract the required data from the entry\nlet imageUrl = entry.classification.imageUrl;\nlet classificationResult = entry.classification.classificationResult;\nlet confidenceScore = entry.classification.confidenceScore;\nlet binLevel1 = entry.ultrasonicSensor.binLevel1;\nlet binLevel2 = entry.ultrasonicSensor.binLevel2;\n\n// Retrieve the timestamp and convert it to a readable format\nlet timestamp = entry.classification.timestamp;\n// Convert the timestamp to a readable date format\nlet formattedTime = timestamp.replace(/_/g, ' ').replace(/(\\d{4})(\\d{2})(\\d{2})/, '$3/$2/$1').replace(/(\\d{2})(\\d{2})(\\d{2})/, '$1:$2:$3');\n\n// Attach the extracted data to msg for further processing\nmsg.url = imageUrl;\nmsg.data = {\n    classificationResult,\n    confidenceScore,\n    binLevel1,\n    binLevel2,\n    timestamp:formattedTime\n};\n\n// Return the modified msg object\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 200,
+        "x": 620,
+        "y": 240,
         "wires": [
             [
-                "db870fdefe3b2505"
+                "7deaf6355e17c074",
+                "1f2d2e933be0d0a4"
             ]
         ]
     },
     {
-        "id": "74a57ca5e0726413",
-        "type": "json",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 310,
-        "y": 200,
+        "id": "37fe86012bb9d043",
+        "type": "http request",
+        "z": "1a9d116eb709129a",
+        "name": "GET Storage Image ",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 620,
+        "y": 340,
         "wires": [
-            [
-                "8b10913000d2c769",
-                "86cd260476d5d80c",
-                "8671c24209e1058c"
-            ]
+            []
         ]
     },
     {
-        "id": "d150efcf6f71dcf7",
-        "type": "mqtt in",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "",
-        "topic": "sensors/ultrasonic",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "3bb6bd8b.d72ce2",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 110,
-        "y": 200,
-        "wires": [
-            [
-                "74a57ca5e0726413"
-            ]
-        ]
+        "id": "a28f6a887f8451c7",
+        "type": "comment",
+        "z": "1a9d116eb709129a",
+        "name": "Pass URL to HTTP request GET",
+        "info": "explictly set msg.url = your actual url\nIn the HTTP request node leave the url field empty",
+        "x": 590,
+        "y": 400,
+        "wires": []
     },
     {
-        "id": "cd160294cd961ee7",
+        "id": "6bdc7c535070984c",
         "type": "ui_gauge",
-        "z": "d8a8b03ca0bdc51d",
+        "z": "1a9d116eb709129a",
         "name": "",
-        "group": "6e4f5d1b97ad152f",
+        "group": "163dde46bfd8c18d",
         "order": 0,
         "width": 0,
         "height": 0,
         "gtype": "gage",
         "title": "Bin Level 1",
         "label": "units",
-        "format": "{{value}}",
+        "format": "{{value}} %",
         "min": 0,
         "max": "100",
         "colors": [
@@ -90,174 +127,23 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 1150,
-        "y": 140,
+        "x": 1470,
+        "y": 160,
         "wires": []
     },
     {
-        "id": "2bdf05910190a4fe",
-        "type": "mqtt in",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "",
-        "topic": "classification/results",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "3bb6bd8b.d72ce2",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 130,
-        "y": 400,
-        "wires": [
-            [
-                "41f51fee55cad19e"
-            ]
-        ]
-    },
-    {
-        "id": "af8e24f4d9d52f9f",
-        "type": "firebase modify",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "firebase_modify - send data to firebase",
-        "firebaseconfig": "",
-        "childpath": "data/smart-bin",
-        "method": "push",
-        "value": "msg.payload",
-        "priority": "msg.priority",
-        "x": 950,
-        "y": 400,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "41f51fee55cad19e",
-        "type": "json",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 310,
-        "y": 400,
-        "wires": [
-            [
-                "6727b2543da604b3",
-                "cf1d97d2343bf830"
-            ]
-        ]
-    },
-    {
-        "id": "86cd260476d5d80c",
-        "type": "function",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "store ultrasonic in flow",
-        "func": "flow.set('ultrasonic_sensor_1', msg.payload.ultrasonic_sensor_1);\nflow.set('ultrasonic_sensor_2', msg.payload.ultrasonic_sensor_2);\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 300,
-        "y": 280,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "6727b2543da604b3",
-        "type": "function",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "combine and send",
-        "func": "var ultrasonicData1 = flow.get('ultrasonic_sensor_1');\nvar ultrasonicData2 = flow.get('ultrasonic_sensor_2');\n\nif(!ultrasonicData1 && !ultrasonicData1){\n    node.warn(\"No ultrasonic data available in flow\");\n    return null;\n}\n\nvar distance1 = parseFloat(ultrasonicData1)\nvar distance2 = parseFloat(ultrasonicData2)\n\nvar combinedData = {\n    classification : msg.payload,\n    ultrasonicSensor : { \n        binLevel1 : distance1 + \" cm\",\n        binLevel2 : distance2 + \" cm\"\n        }\n    };\n\nmsg.payload = combinedData\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 570,
-        "y": 400,
-        "wires": [
-            [
-                "af8e24f4d9d52f9f",
-                "d0922e3e81173a5c"
-            ]
-        ]
-    },
-    {
-        "id": "d04af8d7d61ced5e",
-        "type": "ui_template",
-        "z": "d8a8b03ca0bdc51d",
-        "group": "6e4f5d1b97ad152f",
-        "name": "Classification Result",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "format": "<div ng-if=\"msg.payload.dataAvailable\" style=\"text-align:center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;\">\n    <img src=\"{{msg.payload.imageUrl}}\" alt=\"Classified Image\" width=\"250\" height=\"250\">\n    <h5>Classification Result: {{msg.payload.classificationResult}}</h2>\n</div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 900,
-        "y": 500,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "cf1d97d2343bf830",
-        "type": "function",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "Classification Dashboard Logic",
-        "func": "var data = msg.payload;\nvar imageUrl = data.imageUrl || flow.get('lastImageUrl');\nvar classificationResult = data.classificationResult || flow.get('lastClassificationResult');\n\nif(imageUrl && classificationResult){\n    flow.set('lastImageUrl', imageUrl);\n    flow.set('lastClassificationResult', classificationResult);\n\n    msg.payload = {\n        imageUrl: imageUrl,\n        classificationResult: classificationResult,\n        dataAvailable: true\n    }\n} else{\n    msg.payload = {\n        dataAvailable: false\n    }\n}\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 570,
-        "y": 500,
-        "wires": [
-            [
-                "d04af8d7d61ced5e"
-            ]
-        ]
-    },
-    {
-        "id": "8671c24209e1058c",
-        "type": "debug",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": true,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "payload",
-        "statusType": "auto",
-        "x": 560,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "46a9cd43b5a86c64",
+        "id": "a5eb34080174d5cb",
         "type": "ui_gauge",
-        "z": "d8a8b03ca0bdc51d",
+        "z": "1a9d116eb709129a",
         "name": "",
-        "group": "6e4f5d1b97ad152f",
+        "group": "163dde46bfd8c18d",
         "order": 0,
         "width": 0,
         "height": 0,
         "gtype": "gage",
         "title": "Bin Level 2",
         "label": "units",
-        "format": "{{value}}",
+        "format": "{{value}} %",
         "min": 0,
         "max": "100",
         "colors": [
@@ -269,31 +155,55 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 1150,
+        "x": 1470,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1f2d2e933be0d0a4",
+        "type": "ui_template",
+        "z": "1a9d116eb709129a",
+        "group": "163dde46bfd8c18d",
+        "name": "Classification Result",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"text-align:center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;\">\n    <img src=\"{{msg.url}}\" alt=\"Classified Image\" width=\"250\" height=\"250\">\n    <h5>Most Recent Classification Result: {{msg.data.classificationResult}}</h2>\n    <h5>Time: {{msg.data.timestamp}}</h2>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1140,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7deaf6355e17c074",
+        "type": "function",
+        "z": "1a9d116eb709129a",
+        "name": "Convert To Percentage",
+        "func": "// Retrieve bin level values from the message payload\nlet binLevel1 = parseFloat(msg.data.binLevel1); // Assuming binLevel1 is a string with units (e.g., \"54.03 cm\")\nlet binLevel2 = parseFloat(msg.data.binLevel2); // Same for binLevel2\n\n// Define the minimum and maximum distances\nlet minDistance = 5;  // Minimum distance (when the bin is full)\nlet maxDistance = 50; // Maximum distance (when the bin is empty)\n\n// Calculate the percentage level for binLevel1\nlet binLevel1Percent = Math.max(0, Math.min(100, ((maxDistance - binLevel1) / (maxDistance - minDistance)) * 100));\n\n// Calculate the percentage level for binLevel2\nlet binLevel2Percent = Math.max(0, Math.min(100, ((maxDistance - binLevel2) / (maxDistance - minDistance)) * 100));\n\n// Set the calculated percentages to the payload for further processing\nmsg.payload = {\n    binLevel1Percent: binLevel1Percent.toFixed(2), // Format to two decimal places\n    binLevel2Percent: binLevel2Percent.toFixed(2)  // Format to two decimal places\n};\n\n// Return the modified message\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
         "y": 240,
-        "wires": []
+        "wires": [
+            [
+                "e7339b2c598e4cd9"
+            ]
+        ]
     },
     {
-        "id": "d0922e3e81173a5c",
-        "type": "debug",
-        "z": "d8a8b03ca0bdc51d",
-        "name": "debug 5",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": true,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "payload",
-        "statusType": "auto",
-        "x": 740,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "db870fdefe3b2505",
+        "id": "e7339b2c598e4cd9",
         "type": "split",
-        "z": "d8a8b03ca0bdc51d",
+        "z": "1a9d116eb709129a",
         "name": "",
         "splt": "\\n",
         "spltType": "str",
@@ -302,80 +212,62 @@
         "stream": false,
         "addname": "topic",
         "property": "payload",
-        "x": 790,
-        "y": 200,
+        "x": 1110,
+        "y": 240,
         "wires": [
             [
-                "4c29cb7824c08c6f"
+                "f8f27dc25f4f86bd"
             ]
         ]
     },
     {
-        "id": "4c29cb7824c08c6f",
+        "id": "f8f27dc25f4f86bd",
         "type": "switch",
-        "z": "d8a8b03ca0bdc51d",
+        "z": "1a9d116eb709129a",
         "name": "",
         "property": "parts.key",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "eq",
-                "v": "binLevel1",
+                "v": "binLevel1Percent",
                 "vt": "str"
             },
             {
                 "t": "eq",
-                "v": "binLevel2",
+                "v": "binLevel2Percent",
                 "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 950,
-        "y": 200,
+        "x": 1270,
+        "y": 240,
         "wires": [
             [
-                "cd160294cd961ee7"
+                "6bdc7c535070984c"
             ],
             [
-                "46a9cd43b5a86c64"
+                "a5eb34080174d5cb"
             ]
         ]
     },
     {
-        "id": "3bb6bd8b.d72ce2",
-        "type": "mqtt-broker",
-        "name": "publish",
-        "broker": "localhost",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
+        "id": "3ae2eaf1d300fc45",
+        "type": "comment",
+        "z": "1a9d116eb709129a",
+        "name": "Smart Bin Cloud Data Processing and Visualization Flow",
+        "info": "This flow retrieves real-time data from Firebase, including bin levels and classification results. \nIt processes the data to calculate bin fullness percentages, fetches classified images, and displays the information on a Node-RED dashboard for monitoring.",
+        "x": 790,
+        "y": 100,
+        "wires": []
     },
     {
-        "id": "6e4f5d1b97ad152f",
+        "id": "163dde46bfd8c18d",
         "type": "ui_group",
         "name": "Smart Recycle Bin",
-        "tab": "be84b5b463f01a88",
+        "tab": "766aa4d8f3ddd068",
         "order": 1,
         "disp": true,
         "width": "6",
@@ -383,11 +275,11 @@
         "className": ""
     },
     {
-        "id": "be84b5b463f01a88",
+        "id": "766aa4d8f3ddd068",
         "type": "ui_tab",
-        "name": "SmartBin",
+        "name": "SmartBin Cloud (Firebase)",
         "icon": "dashboard",
-        "order": 2,
+        "order": 3,
         "disabled": false,
         "hidden": false
     }
