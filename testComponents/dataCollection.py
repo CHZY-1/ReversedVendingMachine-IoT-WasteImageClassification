@@ -51,13 +51,13 @@ def cleanup():
 
 if __name__ == "__main__":
     # Set your desired output folder
-    output_folder = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/trainingData/metal"
+    output_folder = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/trainingData/metalNoLid"
 
     # Set the number of images you want to capture
     num_images = 4
 
     # Set the delay between captures (in seconds)
-    delay_between_captures = 3
+    delay_between_captures = 1
 
     try:
         capture_images(output_folder, num_images, delay_between_captures)

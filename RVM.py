@@ -51,7 +51,6 @@ ULTRASONIC_SENSORS = [
     {"trigger": 27, "echo": 22},  # Right sensor
 ]
 ultrasonic_publisher = UltrasonicSensorPublisher(ULTRASONIC_SENSORS, mqtt_manager)
-
 def capture_image(image_path):
     """Capture an image using the Raspberry Pi camera."""
     camera = PiCamera()
@@ -88,26 +87,27 @@ def main():
     ultrasonic_publisher.publish_sensor_data()
     try:
           while True:
+                    
             # Step 1: Wait for user input
             GPIO.output(LED_PIN, GPIO.LOW)
             lcd.lcd_clear()
             lcd.lcd_display_string("Place item", 1)
-            lcd.lcd_display_string("in machine", 2)
+            lcd.lcd_display_string("into machine", 2)
             GPIO.wait_for_edge(IR_SENSOR_PIN, GPIO.RISING)
             
             #3-Second Delay after IR sensor Triggered
             lcd.lcd_clear()
             lcd.lcd_display_string("Item detected", 1)
-            lcd.lcd_display_string("Processing...", 2)
+            lcd.lcd_display_string("Initiating.....,", 2)
             time.sleep(5)
             
             # Turn on LED for better image capture
             GPIO.output(LED_PIN, GPIO.HIGH)
-            time.sleep(5)
+            time.sleep(3)
             
             # Buzzer Feedback
             GPIO.output(BUZZER_PIN, GPIO.HIGH)
-            time.sleep(3)
+            time.sleep(2)
             GPIO.output(BUZZER_PIN,GPIO.LOW)
                         
             # Step 2: Capture and classify image
@@ -117,7 +117,7 @@ def main():
             lcd.lcd_clear()
             lcd.lcd_display_string("Image captured", 1)
             lcd.lcd_display_string("Classifying...", 2)
-            time.sleep(5)
+            time.sleep(1)
             
             # Classify the captured image
             image_url, classification_result, confidence_score = waste_classifier.capture_and_classification(image_path)
@@ -126,26 +126,26 @@ def main():
             
             # Turn off LED
             GPIO.output(LED_PIN, GPIO.LOW)
-            time.sleep(5)
+            time.sleep(2)
             
             # Step 3: Display classification result
             lcd.lcd_clear()
-            lcd.lcd_display_string(f"{classification_result}", 1)
+            lcd.lcd_display_string(f"Type: {classification_result}", 1)
             lcd.lcd_display_string(f"Conf: {confidence_score:.2f}", 2)
-            time.sleep(5)
+            time.sleep(3)
             
             # Check if material is acceptable
             if classification_result not in ["Plastic", "Metal"]:
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Invalid item", 1)
                 lcd.lcd_display_string("Please remove", 2)
-                time.sleep(5)
+                time.sleep(3)
                 continue
             
             lcd.lcd_clear()
             lcd.lcd_display_string("Valid item", 1)
             lcd.lcd_display_string("Processing...", 2)
-            time.sleep(5)
+            time.sleep(3)
             
             # Step 4: User decision
             user_choice = user_prompt()
@@ -153,7 +153,7 @@ def main():
             lcd.lcd_clear()
             lcd.lcd_display_string("Choice recorded", 1)
             lcd.lcd_display_string("Sorting item...", 2)
-            time.sleep(5)
+            time.sleep(3)
             
             # Step 5: Sort material
             if classification_result == "Plastic":
@@ -161,22 +161,25 @@ def main():
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Sorted to", 1)
                 lcd.lcd_display_string("Plastic bin", 2)
-                time.sleep(5)
+                time.sleep(3)
             elif classification_result == "Metal":
                 servo_sort.sort_metal()
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Sorted to", 1)
                 lcd.lcd_display_string("Metal bin", 2)
-                time.sleep(5)
-            time.sleep(2)
+                time.sleep(3)
             
+            # Publish ultrasonic sensor data
+            lcd.lcd_clear()
+            lcd.lcd_display_string("Publishing", 1)
+            lcd.lcd_display_string("Bin Sensor Data", 2)
             ultrasonic_publisher.publish_sensor_data()
             material_count += 1
             
             lcd.lcd_clear()
             lcd.lcd_display_string(f"Total items: {material_count}", 1)
             lcd.lcd_display_string("Processing...", 2)
-            time.sleep(5)
+            time.sleep(3)
             
             # Step 6: Continue or cash out
             if user_choice == "stop":
@@ -184,32 +187,26 @@ def main():
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Cashing out", 1)
                 lcd.lcd_display_string(f"{material_count} coins", 2)
-                time.sleep(5)
+                time.sleep(3)
                 
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Dispensing", 1)
                 lcd.lcd_display_string("Please wait...", 2)
-                time.sleep(5)
+                time.sleep(2)
                 dispense_coins(material_count)
-                
-                # Publish ultrasonic sensor data
-                lcd.lcd_clear()
-                lcd.lcd_display_string("Publishing", 1)
-                lcd.lcd_display_string("sensor data...", 2)
-                time.sleep(5)
-                
+
                 # Reset and thank user
                 material_count = 0
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Thank you!", 1)
-                lcd.lcd_display_string("Please come again", 2)
-                time.sleep(5)
+                lcd.lcd_display_string("Recycle On!", 2)
+                time.sleep(3)
                 continue  # Restart the loop
             
             lcd.lcd_clear()
             lcd.lcd_display_string("Ready for", 1)
             lcd.lcd_display_string("next item", 2)
-            time.sleep(5)
+            time.sleep(3)
             
     except KeyboardInterrupt:
         print("Program stopped by user")
@@ -221,3 +218,4 @@ def main():
 
 if __name__ == "__main__":
     main()	
+
