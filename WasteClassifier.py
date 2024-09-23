@@ -44,7 +44,7 @@ class WasteClassifier:
     # Preprocess the image
     def preprocess_image(self, image_path):
         img = cv2.imread(image_path)
-        img_resized = cv2.resize(img, (224, 224))
+        img_resized = cv2.resize(img, (128, 128))
         img_normalized = img_resized.astype(np.float32)
         img_normalized = (img_normalized / 127.5) - 1.0
         img_batch = np.expand_dims(img_normalized, axis=0)
@@ -83,29 +83,12 @@ class WasteClassifier:
     
     # Map the predicted class to labels
     def map_class_to_label(self, predicted_class):
-        if predicted_class == 3:
+        if predicted_class == 2:
             return "Plastic"
-        elif predicted_class == 6:
+        elif predicted_class == 4:
             return "Metal"
         else:
-            return "Others"
-        
-    # def capture_image():
-    #     # Set up the camera
-    #     camera = PiCamera()
-    #     camera.resolution = (640, 480)
-    #     camera.start_preview()
-    
-    #     # Wait for the camera to warm up
-    #     time.sleep(2)
-    
-    #     # Capture an image
-    #     image_path = '/home/pi/Pictures/captured_image.jpg'
-    #     camera.capture(image_path)
-    #     camera.stop_preview()
-    #     camera.close()
-    
-    #     return image_path			
+            return "Others"	
         
 
     def capture_and_classification(self, image_path):

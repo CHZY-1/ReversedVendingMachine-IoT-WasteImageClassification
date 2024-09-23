@@ -42,7 +42,7 @@ servo_sort, servo_coin = setup_servos(SERVO_SORT_PIN, SERVO_COIN_PIN)
 lcd = I2C_LCD_driver.I2C_LCD_driver()
 
 # Initialize WasteClassifier
-model_path = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/model/model.tflite"
+model_path = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/model/TrashSure-model.tflite"
 waste_classifier = WasteClassifier(mqtt_manager, model_path)
 
 # Initialize UltrasonicSensorPublisher
