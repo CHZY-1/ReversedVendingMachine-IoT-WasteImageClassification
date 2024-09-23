@@ -51,7 +51,7 @@ def cleanup():
 
 if __name__ == "__main__":
     # Set your desired output folder
-    output_folder = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/trainingData/metalNoLid"
+    output_folder = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/trainingData/plasticNoWindow"
 
     # Set the number of images you want to capture
     num_images = 4
