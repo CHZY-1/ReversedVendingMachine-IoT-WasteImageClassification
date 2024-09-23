@@ -41,12 +41,25 @@ class WasteClassifier:
         cls.bucket = storage.bucket()
         cls.firebase_initialized = True
 
-    # Preprocess the image
+    # # Preprocess the image
+    # def preprocess_image(self, image_path):
+    #     img = cv2.imread(image_path)
+    #     img_resized = cv2.resize(img, (128, 128))
+    #     img_normalized = img_resized.astype(np.float32)
+    #     img_normalized = (img_normalized / 127.5) - 1.0
+    #     img_batch = np.expand_dims(img_normalized, axis=0)
+    #     return img_batch
+    
     def preprocess_image(self, image_path):
+        # Load the image
         img = cv2.imread(image_path)
-        img_resized = cv2.resize(img, (128, 128))
-        img_normalized = img_resized.astype(np.float32)
-        img_normalized = (img_normalized / 127.5) - 1.0
+        # Convert the image from BGR to RGB
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        # Resize the image
+        img_resized = cv2.resize(img_rgb, (128, 128))
+        # Normalize the image to [0, 1] scale
+        img_normalized = img_resized.astype(np.float32) / 255.0
+        # Add batch dimension
         img_batch = np.expand_dims(img_normalized, axis=0)
         return img_batch
     
