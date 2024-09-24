@@ -42,13 +42,13 @@ servo_sort, servo_coin = setup_servos(SERVO_SORT_PIN, SERVO_COIN_PIN)
 lcd = I2C_LCD_driver.I2C_LCD_driver()
 
 # Initialize WasteClassifier
-model_path = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/model/fine-tuned/fine_tuned_no_Window_model.tflite"
+model_path = "/home/pi/Desktop/waste_classification/RaspberryPi-WasteImageClassification/model/fine-tuned/fine_tuned_combined_model.tflite"
 waste_classifier = WasteClassifier(mqtt_manager, model_path)
 
 # Initialize UltrasonicSensorPublisher
 ULTRASONIC_SENSORS = [
-    {"trigger": 23, "echo": 24},  # Left sensor
-    {"trigger": 27, "echo": 22},  # Right sensor
+    {"trigger": 23, "echo": 24},  # right sensor
+    {"trigger": 27, "echo": 22},  # left sensor
 ]
 ultrasonic_publisher = UltrasonicSensorPublisher(ULTRASONIC_SENSORS, mqtt_manager)
 def capture_image(image_path):
@@ -214,6 +214,7 @@ def main():
         GPIO.cleanup()
         mqtt_manager.disconnect()
         ultrasonic_publisher.cleanup()
+        print("Program Ended")
         
 
 if __name__ == "__main__":
