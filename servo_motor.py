@@ -23,7 +23,7 @@ class ServoMotor:
         
         duty = self.angle_to_duty_cycle(angle)
         self.pwm.ChangeDutyCycle(duty)
-        time.sleep(3.5)  # Allow more time for the servo to reach the position
+        time.sleep(2.0)  # Allow more time for the servo to reach the position
         self.pwm.ChangeDutyCycle(0)  # Stop the PWM signal
         time.sleep(0.1)  # Short delay after stopping PWM
         return True
@@ -62,7 +62,7 @@ class CoinDispenserServo(ServoMotor):
     
     def dispense_coin(self):
         self.rotate(110-self.dispense_angle)
-        time.sleep(2.0)
+        time.sleep(0.5)
         self.rotate(self.initial_angle)
         time.sleep(1.0)  # Reduced delay after returning to initial position
         return True
