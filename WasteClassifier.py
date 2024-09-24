@@ -96,9 +96,9 @@ class WasteClassifier:
     
     # Map the predicted class to labels
     def map_class_to_label(self, predicted_class):
-        if predicted_class == 4:
+        if predicted_class == 1:
             return "Plastic"
-        elif predicted_class == 2:
+        elif predicted_class == 0:
             return "Metal"
         else:
             return "Others"	
