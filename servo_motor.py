@@ -56,14 +56,14 @@ class CoinDispenserServo(ServoMotor):
     def __init__(self, pin, initial_angle=110):
         super().__init__(pin, min_angle=0, max_angle=180)
         self.initial_angle = initial_angle
-        self.dispense_angle = 100
+        self.dispense_angle = 110
         time.sleep(0.1)  # Short delay before initial rotation
         self.rotate(self.initial_angle)
     
     def dispense_coin(self):
-        self.rotate(110-self.dispense_angle)
+        self.rotate(0)
         time.sleep(0.5)
-        self.rotate(self.initial_angle)
+        self.rotate(110)
         time.sleep(1.0)  # Reduced delay after returning to initial position
         return True
 
